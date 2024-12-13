@@ -87,7 +87,7 @@ def insertar_datos_iniciales(sender, **kwargs):
             # Imprimir el tiempo en formato HH:MM:SS
             print(f"Tiempo de ejecución: {hours} horas, {minutes} minutos, {seconds} segundos")
         else:
-            print("No se aplicó la carga de datos inicial cambia la Varieble APPLY_LOAD_SEPOMEX a True")
+            print("No se aplicó la carga de datos inicial. Cambia la Variable APPLY_LOAD_SEPOMEX a True")
     except Exception as e:
         print(f"Ups! ocurrio un Error -> {e}")
     
