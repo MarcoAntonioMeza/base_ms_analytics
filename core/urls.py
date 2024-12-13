@@ -18,6 +18,9 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include("apps.home.urls"))             # UI Kits Html files
+    path("simulador/", include("apps.simulador.urls")),
+    
+    path("", include("apps.home.urls")),  
+    # UI Kits Html files
     
 ]
