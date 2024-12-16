@@ -3,7 +3,7 @@ from apps.simulador import views
 
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', views.index, name='simulador_index'),
     re_path(r'^.*\.*', views.pages, name='pages'),
    
 ]

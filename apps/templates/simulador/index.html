@@ -6,35 +6,58 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
+
 <div class="container mt--8 pb-5">
     <div class="row">
-        
-
+        {% if messages %}
+            <div class="col-12">
+                {% for message in messages %}
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        <strong>¡Éxito!</strong> {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="row">
         <div class="col-xl-4 order-xl-2">
             <div class="card card-profile">
                 <img src="/static/assets/img/solar/solar_residencial.webp" alt="Image placeholder" class="card-img-top">
                 <div class="row justify-content-center">
-                    
+
                 </div>
-               
+
                 <div class="card-body pt-0">
                     <div class="row">
                         <div class="col">
                             <div class="card-profile-stats d-flex justify-content-center">
                                 <div>
                                     <span class="heading">RESIDENCIAL</span>
-                                    
+
                                 </div>
-                               
+
                             </div>
                         </div>
                     </div>
-                   
+
                     <div class="text-justify">
-                        <h5 class="ni education_hat mr-2" >
-                           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam adipisci consequuntur quisquam corrupti temporibus laboriosam mollitia facere minima reprehenderit aspernatur labore, quo commodi tempora soluta itaque eveniet quas dolorem officiis!
+                        <h5 class="ni education_hat mr-2">
+                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam adipisci consequuntur
+                            quisquam corrupti temporibus laboriosam mollitia facere minima reprehenderit aspernatur
+                            labore, quo commodi tempora soluta itaque eveniet quas dolorem officiis!
                         </h5>
-                        
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <button type="button" id="residencial" class="btn btn-primary mt-4">PROBAR</button>
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -46,27 +69,128 @@
         <div class="col-xl-4 order-xl-2">
             <div class="card card-profile">
                 <img src="/static/assets/img/solar/solar_2.avif" alt="Image placeholder" class="card-img-top">
-                
-                
+
+
                 <div class="card-body pt-0">
-                    
+
                     <div class="row">
                         <div class="col">
                             <div class="card-profile-stats d-flex justify-content-center">
                                 <div>
                                     <span class="heading">Comercial</span>
-                                    
+
                                 </div>
-                               
+
                             </div>
                         </div>
                     </div>
                     <div class="text-justify">
-                        <h5 class="ni education_hat mr-2" >
-                           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam adipisci consequuntur quisquam corrupti temporibus laboriosam mollitia facere minima reprehenderit aspernatur labore, quo commodi tempora soluta itaque eveniet quas dolorem officiis!
+                        <h5 class="ni education_hat mr-2">
+                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquam adipisci consequuntur
+                            quisquam corrupti temporibus laboriosam mollitia facere minima reprehenderit aspernatur
+                            labore, quo commodi tempora soluta itaque eveniet quas dolorem officiis!
                         </h5>
-                        
+
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <button type="button" id="comercial" class="btn btn-primary mt-4">PROBAR</button>
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card bg-secondary border-0">
+                
+                <div class="card-body px-lg-5 py-lg-5">
+                    <div class="text-center text-muted mb-4">
+                       <h2>Calculadora</h2>
+                    </div>
+                    <form role="form" method="POST" action="{% url 'simulador_index' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="input-group input-group-merge input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa-solid fa-bolt"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="SU CONSUMO kWh" type="number" id="consumo", name="consumo">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group input-group-merge input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="SU PAGO $" type="number" id="pago", name="pago">
+                            </div>
+                        </div>
+                        <div class="input-group input-group-merge input-group-alternative mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="ni ni-world"></i></span> <!-- Ícono -->
+                            </div>
+                            <select class="form-control" id="estado" name="estado">
+                                <!-- Opción predeterminada "Seleccione Estado" -->
+                                <option value="" disabled {% if not form.estado.value %}selected{% endif %}>-- SELECCIONE SU ESTADO  --</option>
+                        
+                                {% for estado in estados %}
+                                    <option value="{{ estado.id }}" {% if estado.id == form.estado.value %}selected{% endif %}>
+                                        {{ estado.nombre }} <!-- Nombre del estado -->
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            {{ form.estado.errors }}
+                        </div>
+                        <div class="input-group input-group-merge input-group-alternative mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">% de ahorro</span> <!-- Ícono -->
+                            </div>
+                            
+                            <div class="d-flex align-items-center">
+                                <!-- Barra de porcentaje -->
+                                <input type="range"  placeholder="Ingrese su pago $"  class="form-control-range custom-range" id="cantidad_energia_ahorrada" name="cantidad_energia_ahorrada" min="0" max="100" step="1" value="{{ form.cantidad_energia_ahorrada.value|default:0 }}" oninput="updatePercentage(this)">
+                                <!-- Display del porcentaje -->
+                                <span id="percentage-value" class="ml-3" style="font-weight: bold; font-size: 1.2rem; color: #999;">0%</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group input-group-merge input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="far fa-user"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="NOMBRE COMPLETO" type="text" id="name", name="name">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="input-group input-group-merge input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="EMAIL" type="email" id="email", name="email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group input-group-merge input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
+                                </div>
+                                <input class="form-control" placeholder="TÉLEFONO" type="number" id="telefono", name="telefono">
+                            </div>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary mt-4">CONSULTAR</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -75,8 +199,92 @@
 
 
 
-</div>
-{% endblock content %}
 
+
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% endblock content %}
 <!-- Specific JS goes HERE -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+
+
+<!-- Tu script específico -->
+<script>
+    //document.addEventListener("DOMContentLoaded", function () {
+    //    new Vue({
+    //        el: '#app', // Selecciona el elemento donde Vue actuará
+    //        delimiters: ['[[', ']]'], // Cambiar delimitadores para evitar conflictos con Django
+    //        data: {
+    //            mensaje: "Hola desde Vue con Django"
+    //        }
+    //    });
+    //});
+
+    function updatePercentage(slider) {
+        // Actualizar el valor mostrado
+        const percentageValue = document.getElementById('percentage-value');
+        const value = slider.value;
+
+        // Cambiar el color del texto cuando el valor cambia
+        if (value === "0") {
+            percentageValue.style.color = "#999"; // Color gris para el valor inicial (placeholder)
+        } else {
+            percentageValue.style.color = "#007bff"; // Color azul cuando el valor cambia
+        }
+        
+        percentageValue.textContent = value + '%'; // Asigna el valor al span
+    }
+   
+</script>
+{% endblock javascripts %}
+<style>
+    /* Barra de rango personalizada */
+    input[type="range"].custom-range {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 5px; /* Barra más delgada */
+        background: #e0e0e0; /* Fondo gris claro */
+        border-radius: 50px; /* Bordes redondeados */
+        outline: none;
+        transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    /* Barra de rango al hacer hover */
+    input[type="range"].custom-range:hover {
+        background: #b0b0b0; /* Fondo más oscuro al pasar el mouse */
+    }
+
+    /* Personalización del pulgar del slider (thumb) */
+    input[type="range"].custom-range::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        background: #007bff;
+        border-radius: 50%; /* Pulgar redondeado */
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    input[type="range"].custom-range::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        background: #007bff;
+        border-radius: 50%; /* Pulgar redondeado */
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    /* Añadir un poco de sombra al pulgar del slider */
+    input[type="range"].custom-range::-webkit-slider-thumb:hover {
+        background: #0056b3;
+    }
+
+    input[type="range"].custom-range::-moz-range-thumb:hover {
+        background: #0056b3;
+    }
+</style>

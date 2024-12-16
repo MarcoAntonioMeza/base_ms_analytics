@@ -27,9 +27,9 @@ def pages(request):
         return HttpResponse(html_template.render(context, request))
 
     except template.TemplateDoesNotExist:
-        pass
-        #html_template = loader.get_template('home/page-404.html')
-        #return HttpResponse(html_template.render(context, request))
+        #pass
+        html_template = loader.get_template('home/page-404.html')
+        return HttpResponse(html_template.render(context, request))
 
     except:
         html_template = loader.get_template('home/page-500.html')

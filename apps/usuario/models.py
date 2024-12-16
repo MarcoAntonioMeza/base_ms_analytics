@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
+import time
 
 class Usuario(AbstractUser):
     profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
@@ -38,3 +38,14 @@ class Usuario(AbstractUser):
     
     def __str__(self):
         return self.username
+    
+    def save(self, *args, **kwargs):
+        # Si el objeto es nuevo (es decir, no tiene created_at), asignamos la fecha de creación
+        if not self.created_at:
+            self.created_at = int(time.time())
+        
+        # Actualizamos la fecha de modificación cada vez que se guarda el objeto
+        self.updated_at = int(time.time())
+        
+        # Llamamos al método save original para guardar el objeto
+        super(Usuario, self).save(*args, **kwargs)

@@ -7,8 +7,8 @@ class Cliente(models.Model):
     CLIENTE = 20
     
     TIPO_CHOICES = [
-        (LEAD,'LEADS'),
-        (CLIENTE,'CLIENTES'),
+        (LEAD,'LEAD'),
+        (CLIENTE,'CLIENTE'),
     ]
     
     nombres = models.CharField(max_length=150,verbose_name="Nombres")
@@ -20,6 +20,14 @@ class Cliente(models.Model):
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    def save(self, *args, **kwargs):
+        # Eliminar espacios extra y convertir a mayúsculas
+        self.nombres = self.nombres.strip().upper()
+        self.apellidos = self.apellidos.strip().upper()
+        
+        # Llama al método save original para guardar el objeto
+        super(Cliente, self).save(*args, **kwargs)
     
     
     def __str__(self):
