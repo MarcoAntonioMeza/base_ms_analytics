@@ -122,7 +122,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fa-solid fa-bolt"></i></span>
                                 </div>
-                                <input class="form-control" placeholder="SU CONSUMO kWh" type="number" id="consumo", name="consumo">
+                                <input class="form-control" placeholder="SU CONSUMO kWh" type="number" id="consumo", name="consumo" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -130,14 +130,14 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
                                 </div>
-                                <input class="form-control" placeholder="SU PAGO $" type="number" id="pago", name="pago">
+                                <input class="form-control" placeholder="SU PAGO $" type="number" id="pago", name="pago" required>
                             </div>
                         </div>
                         <div class="input-group input-group-merge input-group-alternative mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="ni ni-world"></i></span> <!-- Ícono -->
                             </div>
-                            <select class="form-control" id="estado" name="estado">
+                            <select class="form-control" id="estado" name="estado" required >
                                 <!-- Opción predeterminada "Seleccione Estado" -->
                                 <option value="" disabled {% if not form.estado.value %}selected{% endif %}>-- SELECCIONE SU ESTADO  --</option>
                         
@@ -156,7 +156,7 @@
                             
                             <div class="d-flex align-items-center">
                                 <!-- Barra de porcentaje -->
-                                <input type="range"  placeholder="Ingrese su pago $"  class="form-control-range custom-range" id="cantidad_energia_ahorrada" name="cantidad_energia_ahorrada" min="0" max="100" step="1" value="{{ form.cantidad_energia_ahorrada.value|default:0 }}" oninput="updatePercentage(this)">
+                                <input type="range"  placeholder="Ingrese su pago $"  class="form-control-range custom-range" id="cantidad_energia_ahorrada" name="cantidad_energia_ahorrada" min="0" max="100" step="1" value="{{ form.cantidad_energia_ahorrada.value|default:0 }}" oninput="updatePercentage(this)" required>
                                 <!-- Display del porcentaje -->
                                 <span id="percentage-value" class="ml-3" style="font-weight: bold; font-size: 1.2rem; color: #999;">0%</span>
                             </div>
@@ -166,7 +166,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="far fa-user"></i></span>
                                 </div>
-                                <input class="form-control" placeholder="NOMBRE COMPLETO" type="text" id="name", name="name">
+                                <input class="form-control" placeholder="NOMBRE COMPLETO" type="text" id="name", name="name" required>
                             </div>
                         </div>
                         
@@ -175,7 +175,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                                 </div>
-                                <input class="form-control" placeholder="EMAIL" type="email" id="email", name="email">
+                                <input class="form-control" placeholder="EMAIL" type="email" id="email", name="email" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -183,7 +183,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
                                 </div>
-                                <input class="form-control" placeholder="TÉLEFONO" type="number" id="telefono", name="telefono">
+                                <input class="form-control" placeholder="TÉLEFONO" type="number" id="telefono", name="telefono" required>
                             </div>
                         </div>
                         

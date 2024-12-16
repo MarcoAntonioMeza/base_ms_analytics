@@ -14,3 +14,7 @@ class Solicitud(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE,verbose_name="Cliente")
     
     created_at = models.DateTimeField(verbose_name="Fecha de creación",auto_now_add=True)
+    
+    
+    def __str__(self):
+        return  f"SOLICITUD DE {self.cliente.nombres} "

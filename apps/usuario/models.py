@@ -1,3 +1,5 @@
+import os
+import uuid
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 import time
@@ -40,12 +42,22 @@ class Usuario(AbstractUser):
         return self.username
     
     def save(self, *args, **kwargs):
+        
+       
+        # Cambiar el nombre del archivo de la imagen a un nombre único aleatorio
+        if self.profile_picture:
+            # Obtener la extensión del archivo
+            ext = self.profile_picture.name.split('.')[-1]
+            # Generar un nuevo nombre de archivo utilizando uuid
+            new_name = f"{uuid.uuid4().hex}.{ext}"
+            # Asignar el nuevo nombre al campo 'profile_picture'
+            self.profile_picture.name = os.path.join(new_name)
         # Si el objeto es nuevo (es decir, no tiene created_at), asignamos la fecha de creación
         if not self.created_at:
             self.created_at = int(time.time())
-        
-        # Actualizamos la fecha de modificación cada vez que se guarda el objeto
-        self.updated_at = int(time.time())
+        else:
+            # Actualizamos la fecha de modificación cada vez que se guarda el objeto
+            self.updated_at = int(time.time())
         
         # Llamamos al método save original para guardar el objeto
         super(Usuario, self).save(*args, **kwargs)

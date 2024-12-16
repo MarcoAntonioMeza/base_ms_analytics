@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect,get_object_or_404
+from django.contrib import messages
 from django import template
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template.loader import render_to_string
@@ -7,18 +8,9 @@ from django.urls import reverse
 from direccion.models import Estado
 from apps.clientes.models import Cliente
 from .models import Solicitud
-#import pdfkit
+from django.http import Http404
 from xhtml2pdf import pisa
-#import weasyprint
 
-
-# Create your views here.
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.http import HttpResponse
-from django.template.loader import render_to_string
-from xhtml2pdf import pisa
-from .models import Estado, Cliente, Solicitud
 
 def index(request):
     estados = Estado.objects.all()
@@ -32,19 +24,16 @@ def index(request):
         name = request.POST.get('name')
         email = request.POST.get('email')
         telefono = request.POST.get('telefono')
+        print(consumo, pago, estado_id, cantidad_energia_ahorrada, name, email, telefono)
 
-        try:
-            # Obtén el estado por su ID
-            estado_ob = Estado.objects.get(id=estado_id)
-        except Estado.DoesNotExist:
-            # Si el estado no existe, redirige o muestra un error
-            return HttpResponse('Estado no encontrado', status=404)
-
-        # Crear el cliente
-        client = Cliente(nombres=name, apellidos='', telefono=telefono, email=email)
-        client.save()
-
-        # Crear la solicitud
+        
+        #Obtén el estado por su ID
+        estado_ob = get_object_or_404(Estado,id=estado_id)
+        client = Cliente.objects.filter(email=email).first()
+        if client == None:
+            client = Cliente(nombres=name, apellidos='', telefono=telefono, email=email)
+            client.save()
+       
         solicitud = Solicitud(
             consumo_kwh=consumo,
             pago=pago,
@@ -52,7 +41,13 @@ def index(request):
             cantidad_energia_ahorrada=cantidad_energia_ahorrada,
             cliente=client,  # Aquí debes asignar el cliente correspondiente
         )
+        
+        
         solicitud.save()
+        messages.success(request, '¡El PDF ha sido enviado a su correo electrónico!')
+        return redirect('detalle_simulacion', id=solicitud.id)
+        
+           
 
         # Contexto para el PDF
         context = {
@@ -86,6 +81,10 @@ def index(request):
     return render(request, 'simulador/index.html', {'estados': estados})
 
 
+def detail_simulacion(request, id):
+    solicitud = get_object_or_404(Solicitud, id=id)
+    return render(request, 'simulador/resultados.html', {'solicitud': solicitud})
+
 
 def pages(request):
     context = {}
@@ -103,10 +102,16 @@ def pages(request):
         return HttpResponse(html_template.render(context, request))
 
     except template.TemplateDoesNotExist:
-        pass
-        #html_template = loader.get_template('home/page-404.html')
-        #return HttpResponse(html_template.render(context, request))
+        
+        html_template = loader.get_template('home/page-404.html')
+        return HttpResponse(html_template.render(context, request))
+    except Http404:
+        html_template = loader.get_template('home/page-404.html')
+        return HttpResponse(html_template.render(context, request))
 
     except:
         html_template = loader.get_template('home/page-500.html')
         return HttpResponse(html_template.render(context, request))
+    
+   
+        

@@ -9,7 +9,7 @@ class Estado(models.Model):
     clave = models.CharField(max_length=5,db_index=True)
 
     def __str__(self):
-        return self.nombre_estado
+        return self.nombre
 
 # Modelo para los Municipios
 class Municipio(models.Model):
@@ -17,7 +17,7 @@ class Municipio(models.Model):
     estado = models.ForeignKey(Estado, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.nombre_municipio
+        return self.nombre
 
 # Modelo para los Códigos Postales
 class CodigoPostal(models.Model):
