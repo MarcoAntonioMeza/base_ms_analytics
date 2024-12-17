@@ -7,10 +7,13 @@ from django.template import loader
 from django.urls import reverse
 from direccion.models import Estado
 from apps.clientes.models import Cliente
-from .models import Solicitud
 from django.http import Http404
 from xhtml2pdf import pisa
+from django.core.paginator import Paginator
+from django.http import JsonResponse
 
+from django.db.models import Q
+from .models import Solicitud, SimuladorSolicitudView
 
 def index(request):
     estados = Estado.objects.all()
@@ -84,6 +87,56 @@ def index(request):
 def detail_simulacion(request, id):
     solicitud = get_object_or_404(Solicitud, id=id)
     return render(request, 'simulador/resultados.html', {'solicitud': solicitud})
+
+def index_list(request):
+    
+    return render(request, 'simulador/solicutud_list.html')
+
+def index_list_ajax(request):
+    draw = int(request.GET.get('draw', 1))
+    start = int(request.GET.get('start', 0))
+    length = int(request.GET.get('length', 10))
+    search_value = request.GET.get('search[value]', '')
+
+    # Filtrado por búsqueda
+    solicitudes = SimuladorSolicitudView.objects.all()
+    if search_value:
+       solicitudes = solicitudes.filter(Q(estado__icontains=search_value) | Q(nombres__icontains=search_value))
+    # Paginación
+    paginator = Paginator(solicitudes, length)
+    page_number = (start // length) + 1
+    page_obj = paginator.get_page(page_number)
+
+    # Serializar datos
+    data = [
+        {
+            "id": s.id,
+            "consumo_kwh": str(s.consumo_kwh),
+            "pago": str(s.pago),
+            "energia_ahorrada": str(s.cantidad_energia_ahorrada),
+            "nombres": s.nombres,
+            "estado": s.estado,
+            "fecha": s.fecha.strftime("%Y-%m-%d"),
+        }
+        for s in page_obj
+    ]
+
+    return JsonResponse({
+        "draw": draw,
+        "recordsTotal": paginator.count,
+        "recordsFiltered": paginator.count,
+        "data": data
+    })
+
+
+
+
+
+
+
+
+
+
 
 
 def pages(request):

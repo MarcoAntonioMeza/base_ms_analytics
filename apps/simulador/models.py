@@ -18,3 +18,29 @@ class Solicitud(models.Model):
     
     def __str__(self):
         return  f"SOLICITUD DE {self.cliente.nombres} "
+
+
+
+#==============================================================
+#                           VIEWS
+#==============================================================
+
+class SimuladorSolicitudView(models.Model):
+    id = models.AutoField(primary_key=True)
+    consumo_kwh = models.DecimalField(max_digits=10, decimal_places=2)
+    pago = models.DecimalField(max_digits=10, decimal_places=2)
+    cantidad_energia_ahorrada = models.DecimalField(max_digits=10, decimal_places=2)
+    cliente_id = models.IntegerField()
+    estado_id = models.IntegerField()
+    estado = models.CharField(max_length=255)  # Campo 'st.nombre'
+    nombres = models.CharField(max_length=255)  # Campo 'cc.nombres'
+    fecha = models.DateTimeField()  # Campo 's.created_at'
+
+    class Meta:
+        managed = False  # Evita que Django intente crear/modificar la vista
+        db_table = 'simulador_solicitud_view'  # Nombre exacto de la vista en tu DB
+        verbose_name = 'Simulador Solicitud'
+        verbose_name_plural = 'Simulador Solicitudes'
+
+    def __str__(self):
+        return f"Solicitud {self.id} - {self.nombres} ({self.estado})"

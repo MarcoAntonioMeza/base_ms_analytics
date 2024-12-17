@@ -1,0 +1,81 @@
+{% extends 'layouts/base.html' %}
+
+
+{% block title %} SIMULADOR list {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+
+
+{% block content %}
+<div class="container">
+    <div class="card bg-default shadow">
+        <div class="card-header bg-transparent border-0">
+            <h3 class="text-white mb-0">Dark table</h3>
+        </div>
+        <table id="solicitudes-table" class="display table align-items-center table-dark table-flush">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="sort">ID</th>
+                    <th scope="col" class="sort">Consumo KWH</th>
+                    <th scope="col" class="sort">Pago</th>
+                    <th scope="col" class="sort">Energía Ahorrada</th>
+                    <th scope="col" class="sort">Cliente</th>
+                    <th scope="col" class="sort">Estado</th>
+                    <th scope="col" class="sort">Fecha</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+<!-- jQuery primero -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+
+<script>
+
+    $(document).ready(function () {
+        var table = $('#solicitudes-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "{% url 'list_solicituds_ajax' %}",  // URL de la vista
+                type: "GET"
+            },
+            columns: [
+                { data: "id" },
+                { data: "consumo_kwh" },
+                { data: "pago" },
+                { data: "energia_ahorrada" },
+                { data: "nombres" },
+                { data: "estado" },
+                { data: "fecha" },
+            ],
+            //language: {
+            //    url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/Spanish.json"
+            //}
+        });
+
+        // Evento de doble clic en una fila
+        $('#solicitudes-table tbody').on('dblclick', 'tr', function () {
+            var data = table.row(this).data();  // Obtener los datos de la fila
+            var id = data.id;  // Extraer el ID u otra información necesaria
+            window.location.href = "#".replace('0', id);
+        });
+    });
+</script>
+
+{% endblock javascripts %}
