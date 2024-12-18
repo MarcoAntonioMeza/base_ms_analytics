@@ -40,10 +40,14 @@
   <!-- Specific CSS goes HERE -->
   {% block stylesheets %}{% endblock stylesheets %}
 
-</head>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head><!-- Cargar primero jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Luego cargar Select2 -->
+
+
 <body class="">
-  {% include "includes/sidenav.html" %} 
+  {% include "includes/sidenav.html" %}
 
   <div class="main-content" id="panel">
 
@@ -54,7 +58,7 @@
 
 
   </div>
-  
+
 
   {% include "includes/scripts.html" %}
   <!-- Specific JS goes HERE -->
