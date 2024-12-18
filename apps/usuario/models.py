@@ -16,8 +16,8 @@ class Usuario(AbstractUser):
     amigos = models.ManyToManyField('self', blank=True, symmetrical=True, related_name='amigos_conectados', verbose_name='Amigos')
     name_soacial_media = models.CharField(max_length=200, null=True, blank=True, verbose_name='Nombre de la red social')
 
-    created_at = models.IntegerField(default=None, verbose_name='Fecha de creación')
-    updated_at = models.IntegerField(default=None, verbose_name='Fecha de actualización')
+    created_at = models.IntegerField(default=None, null=True, verbose_name='Fecha de creación')
+    updated_at = models.IntegerField(default=None,null=True, verbose_name='Fecha de actualización')
     created_by = models.ForeignKey(
         'self', 
         null=True, 
@@ -41,9 +41,9 @@ class Usuario(AbstractUser):
     def __str__(self):
         return self.username
     
+    
+    
     def save(self, *args, **kwargs):
-        
-       
         # Cambiar el nombre del archivo de la imagen a un nombre único aleatorio
         if self.profile_picture:
             # Obtener la extensión del archivo

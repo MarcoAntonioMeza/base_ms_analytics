@@ -21,7 +21,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="canonical" href="https://appseed.us/admin-dashboards/django-dashboard-argon">
-
+  
   <title>
     Django Argon Dashboard - {% block title %} Open-Source Admin Panel {% endblock %} | AppSeed
   </title>
@@ -41,23 +41,21 @@
   {% block stylesheets %}{% endblock stylesheets %}
 
 </head>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 <body class="">
-  {% include "includes/sidenav.html" %} 
+
+  <!-- {% include "includes/sidenav.html" %} -->
 
   <div class="main-content" id="panel">
 
     {% include "includes/navigation.html" %}
-    <div class="container-fluid">
-      {% block content %}{% endblock content %}
-    </div>
 
+    {% block content %}{% endblock content %}
 
   </div>
-  
 
   {% include "includes/scripts.html" %}
-  <!-- Specific JS goes HERE -->
+  <!-- Specific JS goes HERE --> 
   {% block javascripts %}{% endblock javascripts %}
 
   <script src="/static/assets/js/argon.js?v=1.2.0"></script>

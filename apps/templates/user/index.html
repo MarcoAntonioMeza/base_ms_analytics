@@ -1,0 +1,61 @@
+{% extends 'layouts/base.html' %}
+
+
+{% block title %}  USUARIOS APP {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+
+
+{% block content %}
+HOLI
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+<!-- jQuery primero 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+
+<!-- DataTables JS 
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script> -->
+
+<!-- DataTables CSS 
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">-->
+
+<script>
+
+    $(document).ready(function () {
+        var table = $('#solicitudes-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "{% url 'list_solicituds_ajax' %}",  // URL de la vista
+                type: "GET"
+            },
+            columns: [
+                { data: "id" },
+                { data: "consumo_kwh" },
+                { data: "pago" },
+                { data: "energia_ahorrada" },
+                { data: "nombres" },
+                { data: "estado" },
+                { data: "fecha" },
+            ],
+            //language: {
+            //    url: "//cdn.datatables.net/plug-ins/1.13.4/i18n/Spanish.json"
+            //}
+        });
+
+        // Evento de doble clic en una fila
+        $('#solicitudes-table tbody').on('dblclick', 'tr', function () {
+            var data = table.row(this).data();  // Obtener los datos de la fila
+            var id = data.id;  // Extraer el ID u otra información necesaria
+            window.location.href = "#".replace('0', id);
+        });
+    });
+</script>
+
+{% endblock javascripts %}
