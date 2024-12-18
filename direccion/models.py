@@ -33,3 +33,5 @@ class Colonia(models.Model):
 
     def __str__(self):
         return self.d_asenta
+
+

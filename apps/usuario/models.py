@@ -4,6 +4,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 import time
 
+from direccion.models import   CodigoPostal, Estado, Municipio, Colonia
+
 class Usuario(AbstractUser):
     profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
     nombre = models.CharField(max_length=200, null=False, verbose_name='Primer Nombre')
@@ -61,3 +63,19 @@ class Usuario(AbstractUser):
         
         # Llamamos al método save original para guardar el objeto
         super(Usuario, self).save(*args, **kwargs)
+
+
+
+
+class Direccion(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='direcciones')
+    estado = models.ForeignKey(Estado, on_delete=models.CASCADE)
+    municipio = models.ForeignKey(Municipio, on_delete=models.CASCADE)
+    codigo_postal = models.ForeignKey(CodigoPostal, on_delete=models.CASCADE)
+    colonia = models.ForeignKey(Colonia, on_delete=models.CASCADE)
+    calle = models.CharField(max_length=200)
+    numero_exterior = models.CharField(max_length=20, null=True, blank=True)
+    numero_interior = models.CharField(max_length=20, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.calle}, {self.colonia}, {self.municipio.nombre}, {self.estado.nombre}"

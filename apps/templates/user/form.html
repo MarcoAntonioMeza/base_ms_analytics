@@ -32,9 +32,10 @@
                             <label for="id_profile_picture" class="form-control-label">Foto de Perfil</label>
                             <div class="custom-file-container">
                                 <!-- Input de archivo oculto -->
-                                {{ form.profile_picture }}
+                                {{ user_form.profile_picture }}
                                 <!-- Botón personalizado -->
-                                <label for="id_profile_picture" class="btn btn-outline-primary custom-btn">Seleccionar Imagen</label>
+                                <label for="id_profile_picture" class="btn btn-outline-primary custom-btn">Seleccionar
+                                    Imagen</label>
                             </div>
                         </div>
                         <div class="col-md-4"></div>
@@ -44,12 +45,12 @@
                         <!-- Username -->
                         <div class="col-md-6 mb-3">
                             <label for="id_username" class="form-control-label">Nombre de Usuario</label>
-                            {{ form.username|add_class:"form-control" }}
+                            {{ user_form.username|add_class:"form-control" }}
                         </div>
                         <!-- Email -->
                         <div class="col-md-6 mb-3">
                             <label for="id_email" class="form-control-label">Correo Electrónico</label>
-                            {{ form.email|add_class:"form-control" }}
+                            {{ user_form.email|add_class:"form-control" }}
                         </div>
                     </div>
 
@@ -57,21 +58,21 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="id_password1" class="form-control-label">Contraseña</label>
-                            {{ form.password1|add_class:"form-control" }}
+                            {{ user_form.password1|add_class:"form-control" }}
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="id_password2" class="form-control-label">Confirmar Contraseña</label>
-                            {{ form.password2|add_class:"form-control" }}
+                            {{ user_form.password2|add_class:"form-control" }}
                         </div>
                     </div>
 
                     <div class="form-check form-switch mb-3">
-                        {{ form.access_to_app }}
-                        <label for="{{ form.access_to_app.id_for_label }}" class="form-check-label ms-2 my-5">
+                        {{ user_form.access_to_app }}
+                        <label for="{{ user_form.access_to_app.id_for_label }}" class="form-check-label ms-2 my-5">
                             ¿Puede acceder a la app?
                         </label>
                     </div>
-                    
+
                     <!-- Botones -->
                     <div class="d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary me-2">Guardar</button>
@@ -91,33 +92,130 @@
                     </div>
                 </div>
                 <div class="card-body">
-
                     <div class="row">
                         <!-- Nombre y Apellido -->
                         <div class="col-md-6 mb-3">
                             <label for="id_nombre" class="form-control-label">Primer Nombre</label>
-                            {{ form.nombre|add_class:"form-control" }}
+                            {{ user_form.nombre|add_class:"form-control" }}
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="id_segundo_nombre" class="form-control-label">Segundo Nombre</label>
-                            {{ form.segundo_nombre|add_class:"form-control" }}
+                            {{ user_form.segundo_nombre|add_class:"form-control" }}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="id_apellido_paterno" class="form-control-label">Apellido Paterno</label>
-                            {{ form.apellido_paterno|add_class:"form-control" }}
+                            {{ user_form.apellido_paterno|add_class:"form-control" }}
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="id_apellido_materno" class="form-control-label">Apellido Materno</label>
-                            {{ form.apellido_materno|add_class:"form-control" }}
+                            {{ user_form.apellido_materno|add_class:"form-control" }}
                         </div>
                     </div>
+
+                    
+                
+                    <!-- Campos adicionales (calle, número, etc.) -->
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="id_estado" class="form-control-label">Estado</label>
+                            <select id="id_estado" name="estado" class="form-control">
+                                <option value="">Seleccione un Estado</option>
+                                {% for estado in estados %}
+                                    <option value="{{ estado.id }}" {% if estado.id == user_form.estado.value %} selected {% endif %}>{{ estado.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                            {% if direccion_form.estado.errors %}
+                                <div class="alert alert-danger">
+                                    {% for error in direccion_form.estado.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                
+                        <div class="col-md-4">
+                            <label for="id_municipio" class="form-control-label">Municipio</label>
+                            <select id="id_municipio" name="municipio" class="form-control">
+                                <option value="">Seleccione un Municipio</option>
+                            </select>
+                            {% if direccion_form.municipio.errors %}
+                                <div class="alert alert-danger">
+                                    {% for error in direccion_form.municipio.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                
+                        <div class="col-md-4">
+                            <label for="id_codigo_postal" class="form-control-label">Código Postal</label>
+                            <input type="text" id="id_codigo_postal" name="codigo_postal" class="form-control"
+                                placeholder="Ingrese el código postal">
+                            {% if direccion_form.codigo_postal.errors %}
+                                <div class="alert alert-danger">
+                                    {% for error in direccion_form.codigo_postal.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="id_colonia" class="form-control-label">Colonia</label>
+                            <select id="id_colonia" name="colonia" class="form-control">
+                                <option value="">Seleccione una Colonia</option>
+                            </select>
+                            {% if direccion_form.colonia.errors %}
+                                <div class="alert alert-danger">
+                                    {% for error in direccion_form.colonia.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                
+                        <div class="col-md-4">
+                            <label for="id_calle" class="form-control-label">Calle</label>
+                            <input type="text" id="id_calle" name="calle" class="form-control" placeholder="Ingrese la calle">
+                            {% if direccion_form.calle.errors %}
+                                <div class="alert alert-danger">
+                                    {% for error in direccion_form.calle.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                
+                        <div class="col-md-4">
+                            <label for="id_numero_exterior" class="form-control-label">Número Exterior</label>
+                            <input type="text" id="id_numero_exterior" name="numero_exterior" class="form-control" placeholder="Número Exterior">
+                            {% if direccion_form.numero_exterior.errors %}
+                                <div class="alert alert-danger">
+                                    {% for error in direccion_form.numero_exterior.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                   
 
                 </div>
             </div>
         </div>
     </div>
+
+
+
+
+
+
+
 
 </form>
 
@@ -147,5 +245,65 @@
                 preview.hide(); // Ocultar la vista previa
             }
         });
+
+        $('#id_estado').on('change', function() {
+        var estadoId = $(this).val();
+        if (estadoId) {
+            $.get("{% url 'search_dir' %}", { estado_id: estadoId }, function(data) {
+                // Llenar el select de municipios
+                var municipioSelect = $('#id_municipio');
+                municipioSelect.empty().append('<option value="">Seleccione un Municipio</option>');
+                
+                data.municipios.forEach(function(municipio) {
+                    municipioSelect.append('<option value="' + municipio.id + '">' + municipio.nombre + '</option>');
+                });
+
+                municipioSelect.prop('disabled', false);  // Habilitar el select de municipios
+                $('#id_colonia').prop('disabled', true);  // Deshabilitar el select de colonias
+            });
+        } else {
+            $('#id_municipio').empty().append('<option value="">Seleccione un Municipio</option>').prop('disabled', true);
+            $('#id_colonia').empty().append('<option value="">Seleccione una Colonia</option>').prop('disabled', true);
+        }
+    });
+
+    // Función para actualizar las colonias al cambiar el municipio
+    $('#id_municipio').on('change', function() {
+        var municipioId = $(this).val();
+        if (municipioId) {
+            $.get("{% url 'search_dir' %}", { municipio_id: municipioId }, function(data) {
+                // Llenar el select de colonias
+                var coloniaSelect = $('#id_colonia');
+                coloniaSelect.empty().append('<option value="">Seleccione una Colonia</option>');
+                
+                data.colonias.forEach(function(colonia) {
+                    coloniaSelect.append('<option value="' + colonia.id + '">' + colonia.d_asenta + '</option>');
+                });
+
+                coloniaSelect.prop('disabled', false);  // Habilitar el select de colonias
+            });
+        } else {
+            $('#id_colonia').empty().append('<option value="">Seleccione una Colonia</option>').prop('disabled', true);
+        }
+    });
+
+    // Función para actualizar estado y municipio por código postal
+    $('#id_codigo_postal').on('input', function() {
+        var codigoPostal = $(this).val();
+        if (codigoPostal.length === 5) {  // Solo cuando tenga 5 dígitos
+            $.get("{% url 'search_dir' %}", { codigo_postal: codigoPostal }, function(data) {
+                // Llenar el select de estado y municipio si existe el código postal
+                if (data.municipios.length > 0) {
+                    $('#id_estado').val(data.municipios[0].estado_id).change();
+                    $('#id_municipio').empty().append('<option value="">Seleccione un Municipio</option>');
+                    data.municipios.forEach(function(municipio) {
+                        $('#id_municipio').append('<option value="' + municipio.id + '">' + municipio.nombre + '</option>');
+                    });
+                    $('#id_municipio').prop('disabled', false);
+                    $('#id_colonia').empty().append('<option value="">Seleccione una Colonia</option>').prop('disabled', true);
+                }
+            });
+        }
+    });
     });
 </script>
