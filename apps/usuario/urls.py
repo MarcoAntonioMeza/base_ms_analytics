@@ -4,8 +4,8 @@ from apps.usuario import views
 
 urlpatterns = [
     path('', views.index, name='user_index'),
-    
     path('create/', views.crear_usuario, name='user_create'),
+    path('update/<int:id>', views.update_usuario, name='user_update'),
     #path('solicitud-list/', views.index_list, name='list_solicituds'),
     #path('solicitud-list-ajax/', views.index_list_ajax, name='list_solicituds_ajax'),
     

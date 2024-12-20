@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .models import CodigoPostal, Municipio, Colonia
 from django.http import JsonResponse
-from .models import CodigoPostal, Municipio, Colonia
+from .models import CodigoPostal, Municipio, Colonia, Estado
 
 def buscar_direccion(request):
     codigo_postal = request.GET.get('codigo_postal')
@@ -11,6 +11,7 @@ def buscar_direccion(request):
 
     municipios = []
     colonias = []
+    estado = None
 
     # Buscar por código postal
     if codigo_postal:
@@ -18,8 +19,9 @@ def buscar_direccion(request):
             codigo = CodigoPostal.objects.get(codigo_postal=codigo_postal)
             colonias = Colonia.objects.filter(codigo_postal=codigo)
             municipios = Municipio.objects.filter(id__in=colonias.values('municipio'))
+            #estado = Estado.objects.get(id= municipios[0].estado_id)
         except CodigoPostal.DoesNotExist:
-            return JsonResponse({'municipios': [], 'colonias': []})
+            return JsonResponse({'municipios': [], 'colonias': [] })
 
     # Buscar por estado
     elif estado_id:
@@ -30,7 +32,8 @@ def buscar_direccion(request):
         colonias = Colonia.objects.filter(municipio_id=municipio_id)
 
     # Preparar los datos para la respuesta
-    municipios_data = [{'id': municipio.id, 'nombre': municipio.nombre} for municipio in municipios]
-    colonias_data = [{'id': colonia.id, 'd_asenta': colonia.d_asenta} for colonia in colonias]
+    municipios_data = [{'id': municipio.id, 'nombre': municipio.nombre, 'estado_id': municipio.estado.id} for municipio in municipios]
+    colonias_data = [{'id': colonia.id, 'd_asenta': colonia.d_asenta, 'codigo_postal':colonia.codigo_postal.codigo_postal} for colonia in colonias]
+    #estado_data = {'id': estado.id, 'nombre': estado.nombre}
 
     return JsonResponse({'municipios': municipios_data, 'colonias': colonias_data})

@@ -6,44 +6,68 @@ class DireccionForm(forms.ModelForm):
     class Meta:
         model = Direccion
         fields = ['estado', 'municipio', 'codigo_postal', 'colonia', 'calle', 'numero_exterior', 'numero_interior']
-
-    # Campo extra para la búsqueda del código postal
-    codigo_postal = forms.CharField(max_length=10, label="Código Postal", required=True)
+        
+    # Campo extra para la búsqueda del código postal (ahora es opcional)
+    codigo_postal = forms.CharField(max_length=7, label="Código Postal", required=False)
+    municipio = forms.ModelChoiceField(queryset=Municipio.objects.none(), required=False)
+    colonia = forms.ModelChoiceField(queryset=Colonia.objects.none(), required=False)
+    #codigo_postal = forms.ModelChoiceField(queryset=CodigoPostal.objects.all(), required=False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['estado'].queryset = Estado.objects.all()
-        self.fields['municipio'].queryset = Municipio.objects.none()
-        self.fields['colonia'].queryset = Colonia.objects.none()
-        for field_name, field in self.fields.items():          
+        # Si hay un estado seleccionado, actualizar los municipios y colonias
+        estado = self.initial.get('estado') or self.data.get('estado')
+        if estado:
+            self.fields['municipio'].queryset = Municipio.objects.filter(estado=estado)
+
+        municipio = self.initial.get('municipio') or self.data.get('municipio')
+        if municipio:
+            self.fields['colonia'].queryset = Colonia.objects.filter(municipio=municipio)
+         # Si hay una instancia de direccion cargada, poner el codigo postal en el campo
+        if self.instance and self.instance.codigo_postal:
+            self.fields['codigo_postal'].initial = self.instance.codigo_postal.codigo_postal
+        
+            
+
+        for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
 
+        self.fields['estado'].widget.attrs.update({'class': 'form-control select2-container select2-selection--single', 'data-placeholder': '-- SELECCIONA UN ESTADO --'})
+        self.fields['municipio'].widget.attrs.update({'class': 'form-control select2-container select2-selection--single', 'data-placeholder': '-- SELECCIONA UN MUNICIPIO --'})
+        self.fields['colonia'].widget.attrs.update({'class': 'form-control select2-container select2-selection--single', 'data-placeholder': '-- SELECCIONA UNA COLONIA --'})
 
+        # Inicializar 'calle' como no obligatorio por defecto
+        self.fields['calle'].required = False
+        self.fields['estado'].required = False
+        self.fields['municipio'].required = False
+        self.fields['colonia'].required = False
+        self.fields['codigo_postal'].required = False
+    
+    
     def clean_codigo_postal(self):
         codigo_postal = self.cleaned_data.get('codigo_postal')
+
+        # Si no hay código postal, no hacer nada
+        if not codigo_postal:
+            return None
+
+        # Buscar el código postal por su valor
         try:
-            # Buscar la instancia de CodigoPostal correspondiente
             codigo = CodigoPostal.objects.get(codigo_postal=codigo_postal)
-        
-            # Obtener la colonia asociada al código postal
-            colonia = Colonia.objects.filter(codigo_postal=codigo).first()
-        
-            if colonia:
-                # Obtener el municipio a partir de la colonia
-                municipio = colonia.municipio
-                estado = municipio.estado
-        
-                # Asignar la instancia de CodigoPostal al formulario
-                self.instance.codigo_postal = codigo  # Asegúrate de asignar la instancia, no solo la cadena
-                self.instance.estado = estado
-                self.instance.municipio = municipio
-        
-                # Filtrar los municipios y colonias disponibles
-                self.fields['municipio'].queryset = Municipio.objects.filter(estado=estado)
-                self.fields['colonia'].queryset = Colonia.objects.filter(codigo_postal=codigo)
-        
-                return codigo  # Devolvemos la instancia de CodigoPostal
-            else:
-                raise forms.ValidationError("No se encontró una colonia para este código postal.")
+            self.instance.codigo_postal = codigo
+            return codigo  # Devolver la instancia de CodigoPostal
         except CodigoPostal.DoesNotExist:
             raise forms.ValidationError("El código postal no es válido.")
+    
+    def clean_municipio(self):
+        municipio = self.cleaned_data.get('municipio')
+        if municipio and municipio not in self.fields['municipio'].queryset:
+            raise forms.ValidationError("Seleccione un municipio válido.")
+        return municipio
+
+    def clean_colonia(self):
+        colonia = self.cleaned_data.get('colonia')
+        if colonia and colonia not in self.fields['colonia'].queryset:
+            raise forms.ValidationError("Seleccione una colonia válida.")
+        return colonia
