@@ -25,8 +25,8 @@ class DireccionForm(forms.ModelForm):
         if municipio:
             self.fields['colonia'].queryset = Colonia.objects.filter(municipio=municipio)
          # Si hay una instancia de direccion cargada, poner el codigo postal en el campo
-        if self.instance and self.instance.codigo_postal:
-            self.fields['codigo_postal'].initial = self.instance.codigo_postal.codigo_postal
+        #if self.instance and self.instance.codigo_postal:
+        #    self.fields['codigo_postal'].initial = self.instance.codigo_postal.codigo_postal
         
             
 
