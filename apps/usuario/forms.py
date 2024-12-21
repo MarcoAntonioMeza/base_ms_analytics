@@ -20,3 +20,13 @@ class UsuarioCreationForm(UserCreationForm):
             if field_name == 'segundo_nombre':
                 # Establece que 'segundo_nombre' no sea obligatorio
                 field.required = False
+            if field_name == 'profile_picture':
+                # Establece que 'segundo_nombre' no sea obligatorio
+                field.required = False
+                
+                
+    def clean_profile_picture(self):
+        picture = self.cleaned_data.get('profile_picture')
+        if not picture:
+            return None  # Retorna None si no hay imagen cargada
+        return picture

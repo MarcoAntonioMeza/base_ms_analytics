@@ -1,0 +1,86 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+{% block title %} USUARIOS {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+
+
+{% block content %}
+<div class="row container my-3">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 ">
+        <div class="card card-profile">
+            <img src="/static/assets/img/theme/img-1-1000x600.jpg" alt="Image placeholder" class="card-img-top">
+            <div class="row justify-content-center">
+                <div class="col-lg-3 order-lg-2">
+                    <div class="card-profile-image">
+                        
+                            
+
+
+                            <img src="{% if usuario.profile_picture and usuario.profile_picture != '' %}{{ usuario.profile_picture.url }}{% else %}{% static 'assets/img/theme/team-4.jpg' %}{% endif %}" alt="{{ usuario.full_name }}" class="rounded-circle">
+
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'user_update' id=usuario.id %}"
+                        class="btn btn-sm btn-default   float-right">EDITAR</a>
+
+                </div>
+            </div>
+            <div class="card-body pt-0">
+
+                <div class="text-center">
+                    <h5 class="h3">
+                        {{ usuario.full_name }}
+                    </h5>
+                    <div class="h5 font-weight-300">
+                        {{ usuario.email }}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">ACCESO A LA APP: {% if usuario.access_to_app %}
+                            <i class="fas fa-check-circle" style="color: green;"></i> <!-- Palomita en verde -->
+                            {% else %}
+                            <i class="fas fa-times-circle" style="color: red;"></i> <!-- X en rojo -->
+                            {% endif %}
+                        </div>
+                        <div class="col-md-4"> </div>
+                    </div>
+
+                    <div class="h5 mt-4">
+                        <i class="ni business_briefcase-24 mr-2"></i>DIRECCIÓN
+                    </div>
+                    <div>
+                        <div class="row">
+                            <div class="col-md-4 ">Estado: {{direccion.estado.nombre}} </div>
+                            <div class="col-md-4"> MUNICIPIO: {{direccion.municipio.nombre}} </div>
+                            <div class="col-md-4">colonia: {{direccion.colonia.d_asenta}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">CALLE: {{direccion.calle}} </div>
+                            <div class="col-md-2">
+                                {% if direccion.numero_interior %}
+                                NO. INT: {{ direccion.numero_interior }}
+                                {% else %}
+                                NO. INT:
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-2">NO. EXT: {{direccion.numero_exterior}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+{% endblock content %}
