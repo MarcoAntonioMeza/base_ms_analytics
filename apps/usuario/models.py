@@ -7,6 +7,14 @@ import time
 from direccion.models import   CodigoPostal, Estado, Municipio, Colonia
 
 class Usuario(AbstractUser):
+    
+    class Meta:
+        permissions = [
+            ("can_view_user", "VER USUARIO"),
+            ("can_update_user", "ACTUALIZAR USUARIO"),
+            ("can_create_user", "CREAR USUARIO"),
+        ]
+        
     profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
     nombre = models.CharField(max_length=200, null=False, verbose_name='Primer Nombre')
     segundo_nombre = models.CharField(max_length=200, null=True, verbose_name='Segundo Nombre')
@@ -36,6 +44,9 @@ class Usuario(AbstractUser):
         related_name='usuarios_actualizados',
         verbose_name='Actualizado por'
     )
+    
+
+    
 
     def full_name(self):
         return f"{self.nombre} {self.segundo_nombre or ''} {self.apellido_paterno} {self.apellido_materno}"

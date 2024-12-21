@@ -4,6 +4,13 @@ from django.db import models
 class Estado(models.Model):
     nombre = models.CharField(max_length=100,db_index=True)
     clave = models.CharField(max_length=5,db_index=True)
+    
+    class Meta:
+        verbose_name_plural = "Estados"
+        permissions = [
+            ("can_view", "VER estado"),
+            ("can_update", "ACTUALIZAR estado"),
+        ]
 
     def __str__(self):
         return self.nombre
