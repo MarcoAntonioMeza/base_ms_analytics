@@ -65,7 +65,7 @@ class Usuario(AbstractUser):
             new_name = f"{uuid.uuid4().hex}.{ext}"
             # Asignar el nuevo nombre al campo 'profile_picture'
             #self.profile_picture.name = os.path.join(new_name)
-            self.profile_picture.name = os.path.join('profile_pics', new_name)
+            self.profile_picture.name = os.path.join(new_name)
         else:
             self.profile_picture = None
         # Si el objeto es nuevo (es decir, no tiene created_at), asignamos la fecha de creación

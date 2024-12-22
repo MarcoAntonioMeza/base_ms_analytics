@@ -11,21 +11,21 @@
       <!-- Collapse -->
       <div class="collapse navbar-collapse" id="sidenav-collapse-main">
         {% for modulo in modulos_accesibles %}
-       
-          <!-- Muestra el ícono junto al nombre del módulo -->
-          <i class="fas {{ modulo.icono }}"></i> {{ modulo.nombre }}
+          <div class="modulo">
+            <!-- Muestra el ícono junto al nombre del módulo -->
+            <i class="fas {{ modulo.icono }}"></i> {{ modulo.nombre }}
 
-          {% if modulo.submodulos %}
-          <ul>
-            {% for submodulo in modulo.submodulos %}
-            <li>
-              <i class="fas {{ submodulo.icono }}"></i>
-              <a href="{% url submodulo.url %}">{{ submodulo.nombre }}</a>
-            </li>
-            {% endfor %}
-          </ul>
-          {% endif %}
-        
+            {% if modulo.submodulos %}
+              <ul>
+                {% for submodulo in modulo.submodulos %}
+                  <li>
+                    <i class="fas {{ submodulo.icono }}"></i>
+                    <a href="{% url submodulo.url %}">{{ submodulo.nombre }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
         {% endfor %}
 
         <!-- Nav items -->

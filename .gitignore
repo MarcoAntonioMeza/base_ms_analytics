@@ -6,3 +6,4 @@ __pycache__
 imagen_pieza
 /apps/static/
 /profile_pics/
+media/*

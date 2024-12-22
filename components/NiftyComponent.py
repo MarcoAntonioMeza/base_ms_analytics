@@ -63,5 +63,5 @@ def listado_modulos(request):
                 modulos_accesibles.append(modulos_acc)
         print(modulos_accesibles, 'hay usuarios')
         return {'modulos_accesibles': modulos_accesibles}
-    print(modulos_accesibles,'no hay usuarisdsd')    
+        #print(modulos_accesibles,'no hay usuarisdsd')    
     return {'modulos_accesibles': []}
