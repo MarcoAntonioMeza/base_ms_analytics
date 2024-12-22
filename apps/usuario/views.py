@@ -35,11 +35,19 @@ def crear_usuario(request):
         user_form = UsuarioCreationForm(request.POST, request.FILES)
         direccion_form = DireccionForm(request.POST)
 
-        print(request.POST)
+        #print(request.POST)
 
         # Verificar si ambos formularios son válidos
         if user_form.is_valid() and direccion_form.is_valid():
-            usuario = user_form.save()  # Guardar el usuario
+            usuario = user_form.save(commit=False)  # Guardar el usuario
+            grupo = user_form.cleaned_data['grupos']
+            permisos = user_form.cleaned_data['permisos']
+            usuario.save()  # Guardar el usuario
+            if grupo:
+                usuario.groups.add(grupo)
+            if permisos:
+                usuario.user_permissions.set(permisos)
+                
             direccion = direccion_form.save(commit=False)  # No guardar aún la dirección
 
             # Si no se proporcionó un código postal, lo dejamos como None
@@ -69,9 +77,7 @@ def crear_usuario(request):
 
 
 def update_usuario(request, id):
-    # Obtener el usuario
     usuario = get_object_or_404(Usuario, id=id)
-    
     # Verificar si el usuario tiene una dirección
     try:
         direccion = Direccion.objects.get(usuario=usuario)
@@ -90,6 +96,15 @@ def update_usuario(request, id):
         if user_form.is_valid() and direccion_form.is_valid():
             # Guardar los cambios en el usuario y la dirección
             usuario = user_form.save()  # Guardar usuario actualizado
+            grupo = user_form.cleaned_data['grupos']
+            if grupo:
+                usuario.groups.set(user_form.cleaned_data['grupos'])
+                
+            # Asignar los permisos seleccionados
+            permisos = user_form.cleaned_data['permisos']
+            if permisos:
+                usuario.user_permissions.set(permisos)
+                
             if  direccion_form.cleaned_data.get('estado') and direccion_form.cleaned_data.get('municipio') and direccion_form.cleaned_data.get('colonia'):
                 #direccion.codigo_postal = None  # Asignar None si no hay código postal
                 direccion.usuario = usuario  # Asociar la dirección al usuario
@@ -106,7 +121,8 @@ def update_usuario(request, id):
             })
     else:
         # Si no es un POST, crear los formularios con los datos del usuario y dirección existentes
-        user_form = UsuarioCreationForm(instance=usuario)
+        user_form = UsuarioCreationForm(instance=usuario,initial={'grupos': usuario.groups.all(),
+                                                                  'permisos': usuario.user_permissions.all()})
         direccion_form = DireccionForm(instance=direccion)
 
     return render(request, 'user/update.html', {

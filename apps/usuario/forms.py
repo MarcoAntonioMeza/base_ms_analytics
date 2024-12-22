@@ -1,8 +1,28 @@
 from django.contrib.auth.forms import UserCreationForm
 from .models import Usuario
 from django import forms
+from django.contrib.auth.models import  Group,Permission
 
 class UsuarioCreationForm(UserCreationForm):
+    # Añadir el campo de grupos
+    #grupos = forms.ModelChoiceField(
+    #    queryset=Group.objects.all(),  # Obtiene todos los grupos
+    #    required=False,  # Puede ser opcional
+    #    widget=forms.Select(attrs={'class': 'form-control'}),  # Se puede agregar un estilo o clase si deseas
+    #)
+    
+    # Cambiar a ModelMultipleChoiceField para permitir múltiples selecciones
+    grupos = forms.ModelMultipleChoiceField(
+        queryset=Group.objects.all(),  # Obtiene todos los grupos
+        required=False,  # Puede ser opcional
+        widget=forms.SelectMultiple(attrs={'class': 'form-control select2'}),  # Usando select2 para la interfaz
+    )
+    # Campo para seleccionar permisos
+    permisos = forms.ModelMultipleChoiceField(
+        queryset=Permission.objects.all(),  # Obtener todos los permisos
+        required=False,  # Puede ser opcional
+        widget=forms.SelectMultiple(attrs={'class': 'form-control'}),  # Selección múltiple
+    )
     class Meta:
         model = Usuario
         fields = ['username', 'email', 'nombre', 'segundo_nombre', 'apellido_paterno', 'apellido_materno', 

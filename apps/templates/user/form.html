@@ -5,8 +5,8 @@
     <div class="row">
         <!-- Botones -->
 
-        <div class="col-md-2"></div>
-        <div class="col-md-8 text-center">
+
+        <div class="col-md-12text-center">
 
             <div class="card">
                 <div class="card-header">
@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2"></div>
+
     </div>
     <div class="row">
         <div class="col-md-6">
@@ -143,6 +143,34 @@
                         {% endif %}
                     </div>
 
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="id_password2" class="form-control-label">GRUPOS</label>
+                            {{ user_form.grupos|add_class:"form-control" }}
+                            <!-- Mostrar errores del campo de confirmación de contraseña -->
+                            {% if user_form.grupos.errors %}
+                            <div class="text-danger">
+                                {% for error in user_form.grupos.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="id_password2" class="form-control-label">permisos individuales</label>
+                            {{ user_form.permisos|add_class:"form-control" }}
+                            <!-- Mostrar errores del campo de confirmación de contraseña -->
+                            {% if user_form.permisos.errors %}
+                            <div class="text-danger">
+                                {% for error in user_form.permisos.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    
 
 
 
