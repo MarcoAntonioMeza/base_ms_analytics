@@ -1,9 +1,9 @@
 venv
 /sepomex
-venv
 db.sqlite3
 __pycache__
 imagen_pieza
-/apps/static/
+/apps/static/assets/vendor/
+/apps/static/assets/vendor
 /profile_pics/
 media/*
