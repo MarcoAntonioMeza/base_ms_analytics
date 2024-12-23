@@ -1,0 +1,561 @@
+{% load widget_tweaks %}
+
+<form method="post" enctype="multipart/form-data" class="mt-4">
+    {% csrf_token %}
+    <div class="row">
+        <!-- Botones -->
+
+
+        <div class="col-md-12text-center">
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn btn-primary me-2">Guardar</button>
+                                <a href="{% url 'user_index' %}" class="btn btn-secondary">Cancelar</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-0">CUENTA</h3>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="row  text-center my-3">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4 ">
+
+                            <img id="profilePicturePreview" src="#" alt="Vista previa de la imagen"
+                                class="rounded-circle" style="max-width: 200px; display: none;" />
+
+
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4 text-center">
+                            <label for="id_profile_picture" class="form-control-label">Foto de Perfil</label>
+                            <div class="custom-file-container">
+                                <!-- Input de archivo oculto -->
+                                {{ user_form.profile_picture }}
+                                <!-- Botón personalizado -->
+                                <label for="id_profile_picture" class="btn btn-outline-primary custom-btn">Seleccionar
+                                    Imagen</label>
+                            </div>
+                            <!-- Mostrar errores del campo de foto de perfil -->
+                            {% if user_form.profile_picture.errors %}
+                            <div class="text-danger">
+                                {% for error in user_form.profile_picture.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Username -->
+                        <div class="col-md-6 mb-3">
+                            <label for="id_username" class="form-control-label">Nombre de Usuario</label>
+                            {{ user_form.username|add_class:"form-control" }}
+                            <!-- Mostrar errores del campo de username -->
+                            {% if user_form.username.errors %}
+                            <div class="text-danger">
+                                {% for error in user_form.username.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <!-- Email -->
+                        <div class="col-md-6 mb-3">
+                            <label for="id_email" class="form-control-label">Correo Electrónico</label>
+                            {{ user_form.email|add_class:"form-control" }}
+                            <!-- Mostrar errores del campo de email -->
+                            {% if user_form.email.errors %}
+                            <div class="text-danger">
+                                {% for error in user_form.email.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Contraseña -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="id_password1" class="form-control-label">Contraseña</label>
+                            {{ user_form.password1|add_class:"form-control" }}
+                            <!-- Mostrar errores del campo de contraseña -->
+                            {% if user_form.password1.errors %}
+                            <div class="text-danger">
+                                {% for error in user_form.password1.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="id_password2" class="form-control-label">Confirmar Contraseña</label>
+                            {{ user_form.password2|add_class:"form-control" }}
+                            <!-- Mostrar errores del campo de confirmación de contraseña -->
+                            {% if user_form.password2.errors %}
+                            <div class="text-danger">
+                                {% for error in user_form.password2.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="form-check form-switch mb-3">
+                        {{ user_form.access_to_app }}
+                        <label for="{{ user_form.access_to_app.id_for_label }}" class="form-check-label ms-2 my-5">
+                            ¿Puede acceder a la app?
+                        </label>
+                        <!-- Mostrar errores del campo de acceso a la app -->
+                        {% if user_form.access_to_app.errors %}
+                        <div class="text-danger">
+                            {% for error in user_form.access_to_app.errors %}
+                            <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="id_password2" class="form-control-label">GRUPOS</label>
+                            {{ user_form.grupos|add_class:"form-control" }}
+                            <!-- Mostrar errores del campo de confirmación de contraseña -->
+                            {% if user_form.grupos.errors %}
+                            <div class="text-danger">
+                                {% for error in user_form.grupos.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="id_password2" class="form-control-label">permisos individuales</label>
+                            {{ user_form.permisos|add_class:"form-control" }}
+                            <!-- Mostrar errores del campo de confirmación de contraseña -->
+                            {% if user_form.permisos.errors %}
+                            <div class="text-danger">
+                                {% for error in user_form.permisos.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    
+
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-0">PERSONAL</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <!-- Nombre -->
+                        <div class="col-md-6 mb-3">
+                            <label for="id_nombre" class="form-control-label">Primer Nombre</label>
+                            {{ user_form.nombre }}
+                            <!-- Mostrar errores del campo nombre -->
+                            {% if user_form.nombre.errors %}
+                            <div class="text-danger">
+                                {% for error in user_form.nombre.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <!-- Segundo Nombre -->
+                        <div class="col-md-6 mb-3">
+                            <label for="id_segundo_nombre" class="form-control-label">Segundo Nombre</label>
+                            {{ user_form.segundo_nombre }}
+                            <!-- Mostrar errores del campo segundo nombre -->
+                            {% if user_form.segundo_nombre.errors %}
+                            <div class="text-danger">
+                                {% for error in user_form.segundo_nombre.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Apellido Paterno -->
+                        <div class="col-md-6 mb-3">
+                            <label for="id_apellido_paterno" class="form-control-label">Apellido Paterno</label>
+                            {{ user_form.apellido_paterno }}
+                            <!-- Mostrar errores del campo apellido paterno -->
+                            {% if user_form.apellido_paterno.errors %}
+                            <div class="text-danger">
+                                {% for error in user_form.apellido_paterno.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <!-- Apellido Materno -->
+                        <div class="col-md-6 mb-3">
+                            <label for="id_apellido_materno" class="form-control-label">Apellido Materno</label>
+                            {{ user_form.apellido_materno }}
+                            <!-- Mostrar errores del campo apellido materno -->
+                            {% if user_form.apellido_materno.errors %}
+                            <div class="text-danger">
+                                {% for error in user_form.apellido_materno.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-0">DIRECCIÓN</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4 mb-3">
+                            <label for="id_codigo_postal" class="form-control-label">
+                                {{ direccion_form.codigo_postal.label_tag }}
+                            </label>
+                            {{ direccion_form.codigo_postal }}
+                            <!-- Mostrar errores del campo codigo_postal -->
+                            {% if direccion_form.codigo_postal.errors %}
+                            <div class="text-danger">
+                                {% for error in direccion_form.codigo_postal.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-4"></div>
+
+                        <div class="col-md-4">
+                            <label for="id_estado" class="form-control-label">
+                                {{ direccion_form.estado.label_tag }}
+                            </label>
+                            {{ direccion_form.estado }}
+                            <!-- Mostrar errores del campo estado -->
+                            {% if direccion_form.estado.errors %}
+                            <div class="text-danger">
+                                {% for error in direccion_form.estado.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="id_municipio" class="form-control-label">
+                                {{ direccion_form.municipio.label_tag }}
+                            </label>
+                            {{ direccion_form.municipio }}
+                            <!-- Mostrar errores del campo municipio -->
+                            {% if direccion_form.municipio.errors %}
+                            <div class="text-danger">
+                                {% for error in direccion_form.municipio.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="id_colonia" class="form-control-label">
+                                {{ direccion_form.colonia.label_tag }}
+                            </label>
+                            {{ direccion_form.colonia }}
+                            <!-- Mostrar errores del campo colonia -->
+                            {% if direccion_form.colonia.errors %}
+                            <div class="text-danger">
+                                {% for error in direccion_form.colonia.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="id_numero_interior" class="form-control-label">
+                                {{ direccion_form.numero_interior.label_tag }}
+                            </label>
+                            {{ direccion_form.numero_interior }}
+                            <!-- Mostrar errores del campo numero_interior -->
+                            {% if direccion_form.numero_interior.errors %}
+                            <div class="text-danger">
+                                {% for error in direccion_form.numero_interior.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="id_numero_exterior" class="form-control-label">
+                                {{ direccion_form.numero_exterior.label_tag }}
+                            </label>
+                            {{ direccion_form.numero_exterior }}
+                            <!-- Mostrar errores del campo numero_exterior -->
+                            {% if direccion_form.numero_exterior.errors %}
+                            <div class="text-danger">
+                                {% for error in direccion_form.numero_exterior.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-3"></div>
+
+                        <div class="col-md-6">
+                            <label for="id_calle" class="form-control-label">
+                                {{ direccion_form.calle.label_tag }}
+                            </label>
+                            {{ direccion_form.calle }}
+                            <!-- Mostrar errores del campo calle -->
+                            {% if direccion_form.calle.errors %}
+                            <div class="text-danger">
+                                {% for error in direccion_form.calle.errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+
+
+                <div class="row my-3">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+
+                        <div id="map"></div>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+
+
+
+
+
+
+
+</form>
+<style>
+    #map {
+        height: 500px;
+        width: 100%;
+    }
+</style>
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+
+        // Detectar cambios en el input de tipo archivo
+        $('#id_profile_picture').on('change', function (event) {
+            const input = event.target;
+            const preview = $('#profilePicturePreview'); // Seleccionar el elemento de vista previa
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                // Leer el archivo y actualizar la vista previa cuando esté cargado
+                reader.onload = function (e) {
+                    preview.attr('src', e.target.result); // Establecer la imagen en la vista previa
+                    preview.show(); // Mostrar la imagen
+                };
+
+                reader.readAsDataURL(input.files[0]); // Leer el archivo como URL de datos
+            } else {
+                preview.attr('src', '#'); // Restablecer la fuente si no hay archivo
+                preview.hide(); // Ocultar la vista previa
+            }
+        });
+
+
+        $('select.form-control').select2({
+            width: '100%',
+            allowClear: true,
+            placeholder: function () {
+                return $(this).data('placeholder');
+            }
+        });
+        $('.select2-container .select2-selection--single').css('height', 'calc(2.55rem + 2px)');
+
+        // Manejo de cambios en los campos (AJAX)
+        // Manejo de cambios en los campos (AJAX)
+        $('#id_estado').on('change', function () {
+            var estadoId = $(this).val();
+            if (estadoId) {
+                $.get("{% url 'search_dir' %}", { estado_id: estadoId }, function (data) {
+                    var municipioSelect = $('#id_municipio');
+                    municipioSelect.empty().append('<option value="">Seleccione un Municipio</option>');
+
+                    data.municipios.forEach(function (municipio) {
+                        municipioSelect.append('<option value="' + municipio.id + '">' + municipio.nombre + '</option>');
+                    });
+
+                    municipioSelect.prop('disabled', false).trigger('change');
+                    $('#id_colonia').prop('disabled', true);
+                });
+            } else {
+                $('#id_municipio').empty().append('<option value="">Seleccione un Municipio</option>').prop('disabled', true).trigger('change');
+                $('#id_colonia').empty().append('<option value="">Seleccione una Colonia</option>').prop('disabled', true);
+            }
+        });
+
+        $('#id_municipio').on('change', function () {
+            var municipioId = $(this).val();
+            if (municipioId) {
+                $.get("{% url 'search_dir' %}", { municipio_id: municipioId }, function (data) {
+                    let cp = data.colonias[0].codigo_postal;
+                    //console.log(cp);
+
+                    //$('#id_codigo_postal').val(cp);
+                    //geocodePostalCode(cp);
+                    var coloniaSelect = $('#id_colonia');
+                    coloniaSelect.empty().append('<option value="">Seleccione una Colonia</option>');
+
+                    data.colonias.forEach(function (colonia) {
+                        coloniaSelect.append('<option value="' + colonia.id + '">' + colonia.d_asenta + '</option>');
+                    });
+
+                    coloniaSelect.prop('disabled', false);
+                });
+            } else {
+                $('#id_colonia').empty().append('<option value="">Seleccione una Colonia</option>').prop('disabled', true);
+            }
+        });
+
+        $('#id_codigo_postal').on('input', function () {
+            var codigoPostal = $(this).val();
+            if (codigoPostal.length === 5) {
+                geocodePostalCode(codigoPostal);
+                $.get("{% url 'search_dir' %}", { codigo_postal: codigoPostal }, function (data) {
+                    if (data.municipios.length > 0) {
+                        //$('#id_estado').val(data.municipios[0].estado_id);//.change();
+                        $('#id_estado').val(data.municipios[0].estado_id).trigger('change.select2');
+
+                        $('#id_municipio').empty().append('<option value="">Seleccione un Municipio</option>');
+
+                        data.municipios.forEach(function (municipio) {
+                            $('#id_municipio').append('<option value="' + municipio.id + '">' + municipio.nombre + '</option>');
+                        });
+                        $('#id_municipio').val(data.municipios[0].id).change();
+                        $('#id_municipio').prop('disabled', false).trigger('change');
+                        $('#id_colonia').empty().append('<option value="">Seleccione una Colonia</option>').prop('disabled', true);
+                    }
+                });
+            }
+        });
+
+        // Inicializar el mapa
+        var map = L.map('map').setView([19.432608, -99.133209], 12); // Coordenadas por defecto (CDMX)
+
+        // Usar OpenStreetMap como proveedor de mapas
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Función para geocodificar el código postal usando Nominatim
+        function geocodePostalCode(postalCode) {
+            $.ajax({
+                url: `https://nominatim.openstreetmap.org/search?postalcode=${postalCode}&countrycodes=MX&format=json&addressdetails=1`,
+                dataType: 'json',
+                success: function (data) {
+                    if (data.length > 0) {
+                        var lat = parseFloat(data[0].lat);
+                        var lon = parseFloat(data[0].lon);
+                        map.setView([lat, lon], 12);
+                        var marker = L.marker([lat, lon]).addTo(map);
+                        marker.bindPopup("<b>Ubicación del Código Postal: " + postalCode + "</b>").openPopup();
+                    } else {
+                        //alert("No se encontró la ubicación para el código postal.");
+                    }
+                },
+                error: function () {
+                    alert("Hubo un error al intentar geolocalizar el código postal.");
+                }
+            });
+        }
+
+        // Llamar a la función con el código postal
+        //var postalCode = "11000";  // Código postal de ejemplo (Ciudad de México)
+        //geocodePostalCode(postalCode);
+
+    });
+</script>

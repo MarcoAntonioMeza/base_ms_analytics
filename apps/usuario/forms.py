@@ -4,14 +4,7 @@ from django import forms
 from django.contrib.auth.models import  Group,Permission
 
 class UsuarioCreationForm(UserCreationForm):
-    # Añadir el campo de grupos
-    #grupos = forms.ModelChoiceField(
-    #    queryset=Group.objects.all(),  # Obtiene todos los grupos
-    #    required=False,  # Puede ser opcional
-    #    widget=forms.Select(attrs={'class': 'form-control'}),  # Se puede agregar un estilo o clase si deseas
-    #)
-    
-    # Cambiar a ModelMultipleChoiceField para permitir múltiples selecciones
+  
     grupos = forms.ModelMultipleChoiceField(
         queryset=Group.objects.all(),  # Obtiene todos los grupos
         required=False,  # Puede ser opcional
@@ -32,21 +25,17 @@ class UsuarioCreationForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             if field_name == 'access_to_app':
-                # Estiliza el checkbox como un switch
                 field.widget.attrs['class'] = 'form-check-input custom-switch-input'
             else:
-                # Aplica la clase form-control a otros campos
                 field.widget.attrs['class'] = 'form-control'
             if field_name == 'segundo_nombre':
-                # Establece que 'segundo_nombre' no sea obligatorio
                 field.required = False
             if field_name == 'profile_picture':
-                # Establece que 'segundo_nombre' no sea obligatorio
                 field.required = False
                 
                 
     def clean_profile_picture(self):
         picture = self.cleaned_data.get('profile_picture')
         if not picture:
-            return None  # Retorna None si no hay imagen cargada
+            return None  
         return picture

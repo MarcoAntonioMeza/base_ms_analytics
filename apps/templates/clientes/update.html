@@ -1,0 +1,35 @@
+{% extends 'layouts/base.html' %}
+
+
+{% block title %} CREATE {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        update USUARIO
+    </div>
+    <div class="col-md-4"></div>
+</div>
+<div class="row">
+    <div class="col-md-12 my-3">
+        {% include 'user/form.html' %}
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+
+<script>
+
+</script>
+
+{% endblock javascripts %}

@@ -19,8 +19,7 @@ def index(request):
 
 def view_usuario(request, id):
     usuario = get_object_or_404(Usuario, id=id)
-    #print(usuario.profile_picture.url)
-    # Verificar si el usuario tiene una dirección
+   
     try:
         direccion = Direccion.objects.get(usuario=usuario)
     except Direccion.DoesNotExist:
