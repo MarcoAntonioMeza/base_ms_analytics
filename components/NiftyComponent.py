@@ -6,13 +6,13 @@ from django.shortcuts import render
 def listado_modulos(request):
     modulos = [
         {
-            'nombre': 'USUARIOS',
+            'nombre': 'CONFIGURACION',
             'url': 'user_index',
             'app': 'usuario',
-            'icono': 'fa-users',  # Icono para el módulo 'USUARIOS'
+            'icono': 'fa-cogs',  # Icono para el módulo 'USUARIOS'
             'submodulos': [
                 {
-                    'nombre': 'Ver Usuarios',
+                    'nombre': 'Usuarios',
                     'permiso': 'can_view_user',
                     'url': 'user_index',
                     'icono': 'fa-eye',  # Icono para el submódulo 'Ver Usuarios'
@@ -27,7 +27,7 @@ def listado_modulos(request):
             'icono': 'fa-store',  # Icono para el módulo 'Ventas'
             'submodulos': [
                 {
-                    'nombre': 'Ver clientes',
+                    'nombre': 'Clientes',
                     'permiso': 'can_view_cliente',
                     'url': 'clientes_index',#clientes_index
                     'icono': 'fa-search',  # Icono para el submódulo 'Ver Ventas'
@@ -56,7 +56,9 @@ def listado_modulos(request):
             
             if modulos_acc['submodulos']:
                 modulos_accesibles.append(modulos_acc)
-        print(modulos_accesibles, 'hay usuarios')
+                
+        
+        #print(modulos_accesibles, 'hay usuarios')
         return {'modulos_accesibles': modulos_accesibles}
         #print(modulos_accesibles,'no hay usuarisdsd')    
     return {'modulos_accesibles': []}

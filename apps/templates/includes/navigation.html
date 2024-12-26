@@ -1,9 +1,28 @@
 {% load static %}
-
+<style>
+  #datetime {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffffff;
+    background: linear-gradient(90deg, #5e72e4, #825ee4);
+    border-radius: 8px;
+    padding: 8px 16px;
+    display: inline-block;
+    margin-top: 10px;
+  }
+  .datetime-container {
+    text-align: right;
+    margin-right: 20px;
+  }
+</style>
 <nav class="navbar navbar-top navbar-expand navbar-dark bg-primary border-bottom">
   <div class="container-fluid">
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <!-- Search form -->
+      <div class="datetime-container">
+        <span id="datetime">Cargando fecha y hora...</span>
+      </div>
+      <!-- Search form 
       <form class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
         <div class="form-group mb-0">
           <div class="input-group input-group-alternative input-group-merge">
@@ -16,7 +35,7 @@
         <button type="button" class="close" data-action="search-close" data-target="#navbar-search-main" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
-      </form>
+      </form>-->
       <!-- Navbar links -->
       <ul class="navbar-nav align-items-center  ml-md-auto ">
         <li class="nav-item d-xl-none">
@@ -228,3 +247,25 @@
     </div>
   </div>
 </nav>
+
+<script>
+  function actualizarFechaHora() {
+    const ahora = new Date();
+    const opciones = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      //second: '2-digit',
+    };
+    document.getElementById('datetime').textContent = ahora.toLocaleString('es-ES', opciones);
+  }
+
+  // Actualizar cada segundo
+  setInterval(actualizarFechaHora, 1000);
+
+  // Mostrar inmediatamente
+  actualizarFechaHora();
+</script>

@@ -203,6 +203,14 @@ input[type="file"] {
   margin-top: 10px;
   border-radius: 5px;
 }
+.rounded-logo {
+  width: 80%; /* Tamaño grande */
+  height: 100%;
+  /* border-radius: 50%; Redondeo completo */
+  object-fit: cover; /* Ajuste del contenido */
+  /* border: 4px solid #5e72e4; Borde llamativo con color Argon */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra elegante */
+}
 
 hr {
   box-sizing: content-box;
