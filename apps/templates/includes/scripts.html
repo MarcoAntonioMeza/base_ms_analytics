@@ -12,3 +12,25 @@
 <script src="/static/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
 <link href=" /static/assets/vendor/select2/dist/css/select2.min.css" rel="stylesheet" />
 <script src="/static/assets/vendor/select2/dist/js/select2.min.js"></script>
+
+<script>
+    function actualizarFechaHora() {
+    const ahora = new Date();
+    const opciones = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      //second: '2-digit',
+    };
+    document.getElementById('datetime').textContent = ahora.toLocaleString('es-MX', opciones);
+  }
+
+  // Actualizar cada segundo
+  setInterval(actualizarFechaHora, 1000);
+
+  // Mostrar inmediatamente
+  actualizarFechaHora();
+</script>

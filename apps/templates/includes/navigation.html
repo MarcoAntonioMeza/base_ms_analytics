@@ -1,22 +1,4 @@
 {% load static %}
-<style>
-  #datetime {
-    font-family: 'Roboto', sans-serif;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #ffffff;
-    background: linear-gradient(90deg, #5e72e4, #825ee4);
-    border-radius: 8px;
-    padding: 8px 16px;
-    display: inline-block;
-    margin-top: 10px;
-  }
-
-  .datetime-container {
-    text-align: right;
-    margin-right: 20px;
-  }
-</style>
 <nav class="navbar navbar-top navbar-expand navbar-dark bg-primary border-bottom">
 
   <div class="container-fluid">
@@ -264,23 +246,5 @@
 </nav>
 
 <script>
-  function actualizarFechaHora() {
-    const ahora = new Date();
-    const opciones = {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      //second: '2-digit',
-    };
-    document.getElementById('datetime').textContent = ahora.toLocaleString('es-MX', opciones);
-  }
-
-  // Actualizar cada segundo
-  setInterval(actualizarFechaHora, 1000);
-
-  // Mostrar inmediatamente
-  actualizarFechaHora();
+  
 </script>
