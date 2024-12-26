@@ -4,12 +4,11 @@ from django.http import JsonResponse
 from django.core.paginator import Paginator
 from .models import Cliente,DireccionClientes
 from .forms import ClienteForm, DireccionForm
-from datetime import datetime
 from django.contrib.auth.decorators import permission_required
 from django.utils.dateformat import format
 
 #==================================================================
-#                               MAIN CRUD 
+#                      MAIN CRUD 
 #==================================================================
 @permission_required('clientes.can_view_cliente', raise_exception=True)
 def index(request):
@@ -24,7 +23,6 @@ def view(request, id):
         direccion = DireccionClientes(cliente=cliente)
     
     return render(request, 'clientes/view.html', {'cliente': cliente, 'direccion': direccion})
-
 
 @permission_required('clientes.can_create_cliente', raise_exception=True)
 def create(request):

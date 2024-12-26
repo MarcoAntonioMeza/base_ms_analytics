@@ -47,6 +47,9 @@ class Usuario(AbstractUser):
     def full_name(self):
         return f"{self.nombre} {self.segundo_nombre or ''} {self.apellido_paterno} {self.apellido_materno}"
     
+    def full_name_bread(self):
+        return f"{self.nombre} {self.segundo_nombre or ''} {self.apellido_paterno} {self.apellido_materno} [{self.id}]"
+    
     def __str__(self):
         return self.username
     

@@ -1,22 +1,22 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from django.urls import reverse
 from django.db.models import Q
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 from direccion.forms import DireccionForm
 from datetime import datetime
-
+from django.contrib.auth.decorators import permission_required
 from .forms import UsuarioCreationForm
-from direccion.models import Estado
 from .models import Usuario, Direccion
 
 #from apps.usuario.forms import UsuarioCreationForm, DireccionForm
 
 
 # Create your views here.
+@permission_required('usuarios.can_view_user', raise_exception=True)
 def index(request):
     return render(request, 'user/index.html')
 
+@permission_required('usuarios.can_view_user', raise_exception=True)
 def view_usuario(request, id):
     usuario = get_object_or_404(Usuario, id=id)
    
@@ -27,8 +27,9 @@ def view_usuario(request, id):
         
     return render(request, 'user/view.html', {'usuario': usuario, 'direccion': direccion})
 
+@permission_required('usuarios.can_create_user', raise_exception=True)
 def crear_usuario(request):
-    estados = Estado.objects.all()
+    #estados = Estado.objects.all()
     if request.method == 'POST':
         # Crear los formularios con los datos del POST
         user_form = UsuarioCreationForm(request.POST, request.FILES)
@@ -61,7 +62,7 @@ def crear_usuario(request):
             return render(request, 'user/create.html', {
                 'user_form': user_form,
                 'direccion_form': direccion_form,
-                'estados': estados,
+                #'estados': estados,
             })
     else:
         # Si no es un POST, crear formularios vacíos
@@ -71,10 +72,11 @@ def crear_usuario(request):
     return render(request, 'user/create.html', {
         'user_form': user_form,
         'direccion_form': direccion_form,
-        'estados': estados,
+        #'estados': estados,
     })
 
 
+@permission_required('usuarios.can_udate_user', raise_exception=True)
 def update_usuario(request, id):
     usuario = get_object_or_404(Usuario, id=id)
     # Verificar si el usuario tiene una dirección
@@ -130,11 +132,14 @@ def update_usuario(request, id):
         'usuario': usuario,
     })
     
-    
+@permission_required('usuarios.can_delete_user', raise_exception=True)
+def delete_usuario(request, id):
+    pass   
     
 #==================================================================
 #                            LIST TABLES
 #==================================================================
+@permission_required('usuarios.can_view_user', raise_exception=True)
 def index_list_ajax(request):
     draw = int(request.GET.get('draw', 1))
     start = int(request.GET.get('start', 0))

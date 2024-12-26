@@ -1,6 +1,4 @@
 {% extends 'layouts/base.html' %}
-
-
 {% block title %} USUARIOS  {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
@@ -11,37 +9,66 @@
 {% block content %}
 
 
-<div class="row my-4">
-    <div class="col-lg-12">
-        <div class="card shadow-lg border-0">
-            <!-- Encabezado del card -->
-            <div class="card-header  text-white text-center py-4">
-                <h2 class="mb-0">
-                    <i class="ni ni-single-02 mr-2"></i> Listado de Usuarios
-                </h2>
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block mb-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'home' %}"><i class="fas fa-home"></i></a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'user_index' %}">USUARIOS</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        Todos
+                    </li>
+                </ol>
+            </nav>
+            {% if perms.usuarios.can_create_user %}
+            <div class="row align-items-center py-4">
+                <div class="col-lg-12 col-5 text-left">
+                    <a href="{% url 'user_create' %}" class="btn btn-lg btn-secondary">NUEVO</a>
+                </div>
             </div>
+            {% endif %}
 
-            <!-- Contenido del card -->
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table id="users-table" class="table align-items-center table-flush">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col" class="sort">ID</th>
-                                <th scope="col">USUARIO</th>
-                                <th scope="col">NOMBRE</th>
-                                <th scope="col">EMAIL</th>
-                                <th scope="col">CREADO POR</th>
-                                <th scope="col">CREADO</th>
-                            </tr>
-                        </thead>
-                        <tbody class="list" ></tbody>
-                    </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid mt--6">
+    <div class="row my-4">
+        <div class="col-lg-12">
+            <div class="card shadow-lg border-0">
+               
+    
+                <!-- Contenido del card -->
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="users-table" class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col" class="sort">ID</th>
+                                    <th scope="col">USUARIO</th>
+                                    <th scope="col">NOMBRE</th>
+                                    <th scope="col">EMAIL</th>
+                                    <th scope="col">CREADO POR</th>
+                                    <th scope="col">CREADO</th>
+                                    <th scope="col" class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list" ></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 {% endblock content %}
 
@@ -78,6 +105,10 @@
             { data: "email" },
             { data: "created_by" },
             { data: "created_at" },
+            {
+                    data: null,
+                    defaultContent: '<button class="btn btn-sm btn-info btn-eye"><i class="fas fa-eye"></i> Ver</button>'
+                }
         ],
         dom: 'Bfrtip', // Activa la barra de botones
         buttons: [
@@ -131,6 +162,12 @@
             window.location.href = "{% url 'user_view' 0 %}".replace('0', data.id);
         }
     });
+    $('#users-table tbody').on('click', '.btn-eye', function () {
+            var data = table.row($(this).closest('tr')).data();
+            if (data && data.id) {
+                window.location.href = "{% url 'user_view' 0 %}".replace('0', data.id);
+            }
+        });
 });
 
 </script>

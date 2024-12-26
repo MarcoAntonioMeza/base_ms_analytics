@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
 
 
-{% block title %} CREATE {% endblock title %}
+{% block title %} {{usuario.full_name_bread}} {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -9,17 +9,35 @@
 
 
 {% block content %}
-<div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
-        update USUARIO
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block mb-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'home' %}"><i class="fas fa-home"></i></a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'clientes_index' %}">USUARIOS</a>
+                    </li>
+                    <li class="breadcrumb-item " aria-current="page">
+                        EDITAR
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {{ usuario.full_name_bread }} 
+                    </li>
+                </ol>
+            </nav>
+
+        </div>
     </div>
-    <div class="col-md-4"></div>
 </div>
-<div class="row">
-    <div class="col-md-12 my-3">
+
+
+<div class="container-fluid mt--6">
         {% include 'user/form.html' %}
-    </div>
+   
 </div>
 
 {% endblock content %}
