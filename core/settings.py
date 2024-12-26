@@ -31,12 +31,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'apps.clientes.apps.ClientesConfig',
     'direccion.apps.DireccionConfig',  # Registra la configuración de tu aplicación
     'widget_tweaks',
     'apps.home',
     'apps.usuario',
     'apps.socialMedia',
-    'apps.clientes',
     'apps.simulador',
 ]
 

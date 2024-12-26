@@ -8,12 +8,14 @@ class ClienteForm(forms.ModelForm):
     
     class Meta:
         model = Cliente
-        fields = ['nombres', 'apellido_paterno', 'apellido_materno', 'telefono','telefono2', 'email', 'tipo', 'estado', 'giro', 'fecha_nacimiento']
+        fields = ['nombres', 'apellido_paterno', 'apellido_materno', 'telefono','telefono2', 'email', 'tipo', 'status', 'giro', 'fecha_nacimiento']
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             if field_name == 'tipo' or field_name == 'estado':
                 field.widget.attrs['class'] = 'form-control select2-container select2-selection--single'
+                field.widget.attrs['id'] = f'id_{field_name}_cliente'
+                field.widget.attrs['name'] = f'{field_name}_cliente'
             else:
                 field.widget.attrs['class'] = 'form-control'
             if field_name == 'telefono2':

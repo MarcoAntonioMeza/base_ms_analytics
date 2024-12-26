@@ -21,23 +21,18 @@ def listado_modulos(request):
             ]
         },
         {
-            'nombre': 'Ventas',
-            'url': 'ventas:listar',
-            'app': 'ventas',
+            'nombre': 'CLIENTES',
+            'url': 'can_view_cliente',
+            'app': 'clientes',
             'icono': 'fa-store',  # Icono para el módulo 'Ventas'
             'submodulos': [
                 {
-                    'nombre': 'Ver Ventas',
-                    'permiso': 'puede_ver_venta',
-                    'url': 'ventas:ver',
+                    'nombre': 'Ver clientes',
+                    'permiso': 'can_view_cliente',
+                    'url': 'clientes_index',#clientes_index
                     'icono': 'fa-search',  # Icono para el submódulo 'Ver Ventas'
                 },
-                {
-                    'nombre': 'Crear Venta',
-                    'permiso': 'puede_crear_venta',
-                    'url': 'ventas:crear',
-                    'icono': 'fa-plus',  # Icono para el submódulo 'Crear Venta'
-                },
+               
             ]
         },
         # Otros módulos...

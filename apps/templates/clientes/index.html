@@ -1,51 +1,73 @@
 {% extends 'layouts/base.html' %}
 
-
-{% block title %} USUARIOS  {% endblock title %}
+{% block title %}Clientes{% endblock title %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
 
-
-
 {% block content %}
-
-
-<div class="row my-4">
-    <div class="col-lg-12">
-        <div class="card shadow-lg border-0">
-            <!-- Encabezado del card -->
-            <div class="card-header  text-white text-center py-4">
-                <h2 class="mb-0">
-                    <i class="ni ni-single-02 mr-2"></i> Clientes
-                </h2>
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block mb-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'home' %}"><i class="fas fa-home"></i></a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'clientes_index' %}">Clientes</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        Todos los Clientes
+                    </li>
+                </ol>
+            </nav>
+            {% if perms.clientes.can_create_cliente %}
+            <div class="row align-items-center py-4">
+                <div class="col-lg-12 col-5 text-left">
+                    <a href="{% url 'clientes_create' %}" class="btn btn-lg btn-secondary">NUEVO</a>
+                </div>
             </div>
+            {% endif %}
 
-            <!-- Contenido del card -->
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table id="users-table" class="table align-items-center table-flush">
-                        <thead class="thead-light">
-                            <tr>
-                                <th scope="col" class="sort">ID</th>
-                                
-                                <th scope="col">NOMBRE</th>
-                                <th scope="col">CELULAR</th>
-                                <th scope="col">EMAIL</th>
-                                <th scope="col">TIPO</th>
-                                <th scope="col">ESTADO</th>
-                                
-                                <th scope="col">CREADO</th>
-                            </tr>
-                        </thead>
-                        <tbody class="list" ></tbody>
-                    </table>
+        </div>
+    </div>
+</div>
+
+<!-- Container for table -->
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col-lg-12">
+            <!-- Card -->
+            <div class="card shadow-lg border-0">
+                <!-- Encabezado del card -->
+
+
+                <!-- Contenido del card -->
+                <div class="card-body">
+                    <div class="table-responsive mt-4">
+                        <table id="users-table" class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col" class="sort">ID</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Celular</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Tipo</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">Creado</th>
+                                    <th scope="col" class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 {% endblock content %}
 
 <!-- Specific JS goes HERE -->
@@ -64,81 +86,62 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 
-
 <script>
- $(document).ready(function () {
-    var table = $('#users-table').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: {
-            url: "{% url 'list_ajax_clientes' %}",
-            type: "GET"
-        },
-        columns: [
-            { data: "id" },
-            { data: "full_name" },
-            { data: "phone" },
-            { data: "email" },
-            { data: "tipo" },
-
-            { data: "estado" },
-            
-            { data: "created_at" },
-        ],
-        dom: 'Bfrtip', // Activa la barra de botones
-        buttons: [
-            //{
-            //    extend: 'copyHtml5',
-            //    text: 'Copiar',
-            //    className: 'btn btn-secondary btn-sm mx-1',
-            //    exportOptions: {
-            //        columns: ':visible'
-            //    }
-            //},
-            {
-                extend: 'excelHtml5',
-                text: 'Excel',
-                className: 'btn btn-success btn-sm mx-1',
-                exportOptions: {
-                    columns: ':visible'
-                }
+    $(document).ready(function () {
+        var table = $('#users-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "{% url 'list_ajax_clientes' %}",
+                type: "GET"
             },
-            {
-                //extend: 'csvHtml5',
-                text: 'CSV',
-                className: 'btn btn-primary btn-sm mx-1',
-                exportOptions: {
-                    columns: ':visible'
+            columns: [
+                { data: "id" },
+                { data: "full_name" },
+                { data: "phone" },
+                { data: "email" },
+                { data: "tipo" },
+                { data: "estado" },
+                { data: "created_at" },
+                {
+                    data: null,
+                    defaultContent: '<button class="btn btn-sm btn-info btn-eye"><i class="fas fa-eye"></i> Ver</button>'
                 }
-            },
-            //{
-            //    extend: 'pdfHtml5',
-            //    text: 'PDF',
-            //    className: 'btn btn-danger btn-sm mx-1',
-            //    exportOptions: {
-            //        columns: ':visible'
-            //    }
-            //},
-            //{
-            //    extend: 'print',
-            //    text: 'Imprimir',
-            //    className: 'btn btn-info btn-sm mx-1',
-            //    exportOptions: {
-            //        columns: ':visible'
-            //    }
-            //}
-        ]
-    });
+            ],
+            dom: 'Bfrtip', // Activa la barra de botones
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'Excel',
+                    className: 'btn btn-success btn-sm mx-1',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    text: 'CSV',
+                    className: 'btn btn-primary btn-sm mx-1',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+            ]
+        });
 
-    // Evento de doble clic en una fila
-    $('#users-table tbody').on('dblclick', 'tr', function () {
-        var data = table.row(this).data();
-        if (data && data.id) {
-            window.location.href = "{% url 'user_view' 0 %}".replace('0', data.id);
-        }
+        // Evento de doble clic en una fila
+        $('#users-table tbody').on('dblclick', 'tr', function () {
+            var data = table.row(this).data();
+            if (data && data.id) {
+                window.location.href = "{% url 'cliente_view' 0 %}".replace('0', data.id);
+            }
+        });
+        $('#users-table tbody').on('click', '.btn-eye', function () {
+            var data = table.row($(this).closest('tr')).data();
+            if (data && data.id) {
+                window.location.href = "{% url 'cliente_view' 0 %}".replace('0', data.id);
+            }
+        });
     });
-});
-
 </script>
 
 {% endblock javascripts %}
