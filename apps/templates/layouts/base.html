@@ -1,21 +1,10 @@
-<!--
-=========================================================
-* Argon Dashboard - v1.2.0
-=========================================================
-* Product Page: https://www.creative-tim.com/product/argon-dashboard
 
-
-* Copyright  Creative Tim (http://www.creative-tim.com)
-* Coded by www.creative-tim.com
-
-
-
-=========================================================
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
-{% load static %}
+{% load static i18n  %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es-MX">
+
+
+
 
 <head>
   <meta charset="utf-8" />
@@ -23,7 +12,7 @@
   <link rel="canonical" href="https://appseed.us/admin-dashboards/django-dashboard-argon">
 
   <title>
-    MY APP - {% block title %}  {% endblock %} 
+     {% block title %}  {% endblock %} 
   </title>
 
   <!-- Favicon - loaded as static -->
@@ -37,6 +26,7 @@
   <!-- Argon CSS -->
   <link rel="stylesheet" href="/static/assets/css/argon.css?v=1.2.0" type="text/css">
   
+  
 
   <!-- Specific CSS goes HERE -->
   {% block stylesheets %}{% endblock stylesheets %}
@@ -48,6 +38,8 @@
 
 
 <body class="">
+  <!-- Botón de toggle para el menú en pantallas pequeñas -->
+ 
   {% include "includes/sidenav.html" %}
   
 

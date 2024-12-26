@@ -11,15 +11,22 @@
     display: inline-block;
     margin-top: 10px;
   }
+
   .datetime-container {
     text-align: right;
     margin-right: 20px;
   }
 </style>
 <nav class="navbar navbar-top navbar-expand navbar-dark bg-primary border-bottom">
+
   <div class="container-fluid">
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <div class="datetime-container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidenav-collapse-main"
+          aria-controls="sidenav-collapse-main" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
         <span id="datetime">Cargando fecha y hora...</span>
       </div>
       <!-- Search form 
@@ -68,7 +75,8 @@
                 <div class="row align-items-center">
                   <div class="col-auto">
                     <!-- Avatar -->
-                    <img alt="Image placeholder" src="/static/assets/img/theme/team-1.jpg" class="avatar rounded-circle">
+                    <img alt="Image placeholder" src="/static/assets/img/theme/team-1.jpg"
+                      class="avatar rounded-circle">
                   </div>
                   <div class="col ml--2">
                     <div class="d-flex justify-content-between align-items-center">
@@ -87,7 +95,8 @@
                 <div class="row align-items-center">
                   <div class="col-auto">
                     <!-- Avatar -->
-                    <img alt="Image placeholder" src="/static/assets/img/theme/team-2.jpg" class="avatar rounded-circle">
+                    <img alt="Image placeholder" src="/static/assets/img/theme/team-2.jpg"
+                      class="avatar rounded-circle">
                   </div>
                   <div class="col ml--2">
                     <div class="d-flex justify-content-between align-items-center">
@@ -106,7 +115,8 @@
                 <div class="row align-items-center">
                   <div class="col-auto">
                     <!-- Avatar -->
-                    <img alt="Image placeholder" src="/static/assets/img/theme/team-3.jpg" class="avatar rounded-circle">
+                    <img alt="Image placeholder" src="/static/assets/img/theme/team-3.jpg"
+                      class="avatar rounded-circle">
                   </div>
                   <div class="col ml--2">
                     <div class="d-flex justify-content-between align-items-center">
@@ -125,7 +135,8 @@
                 <div class="row align-items-center">
                   <div class="col-auto">
                     <!-- Avatar -->
-                    <img alt="Image placeholder" src="/static/assets/img/theme/team-4.jpg" class="avatar rounded-circle">
+                    <img alt="Image placeholder" src="/static/assets/img/theme/team-4.jpg"
+                      class="avatar rounded-circle">
                   </div>
                   <div class="col ml--2">
                     <div class="d-flex justify-content-between align-items-center">
@@ -144,7 +155,8 @@
                 <div class="row align-items-center">
                   <div class="col-auto">
                     <!-- Avatar -->
-                    <img alt="Image placeholder" src="/static/assets/img/theme/team-5.jpg" class="avatar rounded-circle">
+                    <img alt="Image placeholder" src="/static/assets/img/theme/team-5.jpg"
+                      class="avatar rounded-circle">
                   </div>
                   <div class="col ml--2">
                     <div class="d-flex justify-content-between align-items-center">
@@ -212,10 +224,13 @@
       </ul>
       <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
         <li class="nav-item dropdown">
-          <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
             <div class="media align-items-center">
               <span class="avatar avatar-sm rounded-circle">
-                <img src="{% if request.user.profile_picture and request.user.profile_picture != '' %}{{ request.user.profile_picture.url }}{% else %}{% static 'assets/img/theme/team-4.jpg' %}{% endif %}" alt="{{ request.user.full_name }}">
+                <img
+                  src="{% if request.user.profile_picture and request.user.profile_picture != '' %}{{ request.user.profile_picture.url }}{% else %}{% static 'assets/img/theme/team-4.jpg' %}{% endif %}"
+                  alt="{{ request.user.full_name }}">
               </span>
               <div class="media-body  ml-2  d-none d-lg-block">
                 <span class="mb-0 text-sm  font-weight-bold">
@@ -260,7 +275,7 @@
       minute: '2-digit',
       //second: '2-digit',
     };
-    document.getElementById('datetime').textContent = ahora.toLocaleString('es-ES', opciones);
+    document.getElementById('datetime').textContent = ahora.toLocaleString('es-MX', opciones);
   }
 
   // Actualizar cada segundo
