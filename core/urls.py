@@ -11,6 +11,7 @@ urlpatterns = [
     path("simulador/", include("apps.simulador.urls")),
     path("direccion/", include("direccion.urls")),
     path("clientes/", include("apps.clientes.urls")),
+    path("adminv2/", include("apps.adminv2.urls")),
     
     
     path("", include("apps.home.urls")),  

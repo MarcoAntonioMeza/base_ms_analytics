@@ -1,0 +1,49 @@
+{% extends 'layouts/base.html' %}
+
+
+{% block title %} NUEVO {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+
+
+{% block content %}
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block mb-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'home' %}"><i class="fas fa-home"></i></a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'grupos_index' %}">GRUPOS</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        NUEVO
+                    </li>
+                </ol>
+            </nav>
+
+        </div>
+    </div>
+</div>
+<div class="container-fluid mt--6">
+    
+        {% include 'adminv2/grupos/form.html' %}
+
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+
+<script>
+
+</script>
+
+{% endblock javascripts %}

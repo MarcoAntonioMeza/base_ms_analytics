@@ -1,0 +1,173 @@
+{% extends 'layouts/base.html' %}
+{% block title %} GRUPOS Y PERMISOS  {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+
+
+{% block content %}
+
+
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block mb-4">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'home' %}"><i class="fas fa-home"></i></a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'user_index' %}">GRUPOS Y PERMISOS</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        Todos
+                    </li>
+                </ol>
+            </nav>
+            {% if perms.usuarios.can_create_user %}
+            <div class="row align-items-center py-4">
+                <div class="col-lg-12 col-5 text-left">
+                    <a href="{% url 'grupos_create' %}" class="btn btn-lg btn-secondary">NUEVO</a>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid mt--6">
+    <div class="row my-4">
+        <div class="col-lg-12">
+            <div class="card shadow-lg border-0">
+               
+    
+                <!-- Contenido del card -->
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="users-table" class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col" class="sort">ID</th>
+                                  
+                                    <th scope="col">GRUPO</th>
+                                    
+                                    <th scope="col" class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list" ></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+
+<script>
+ $(document).ready(function () {
+    var table = $('#users-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: "{% url 'list_ajax_grupos' %}",
+            type: "GET"
+        },
+        columns: [
+            { data: "id" },
+            //{ data: "usuario" },
+            { data: "name" },
+            //{ data: "email" },
+            //{ data: "created_by" },
+            //{ data: "created_at" },
+            {
+                    data: null,
+                    defaultContent: '<button class="btn btn-sm btn-info btn-eye"><i class="fas fa-eye"></i> Ver</button>'
+                }
+        ],
+        dom: 'Bfrtip', // Activa la barra de botones
+        buttons: [
+            //{
+            //    extend: 'copyHtml5',
+            //    text: 'Copiar',
+            //    className: 'btn btn-secondary btn-sm mx-1',
+            //    exportOptions: {
+            //        columns: ':visible'
+            //    }
+            //},
+            {
+                extend: 'excelHtml5',
+                text: 'Excel',
+                className: 'btn btn-success btn-sm mx-1',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                //extend: 'csvHtml5',
+                text: 'CSV',
+                className: 'btn btn-primary btn-sm mx-1',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            //{
+            //    extend: 'pdfHtml5',
+            //    text: 'PDF',
+            //    className: 'btn btn-danger btn-sm mx-1',
+            //    exportOptions: {
+            //        columns: ':visible'
+            //    }
+            //},
+            //{
+            //    extend: 'print',
+            //    text: 'Imprimir',
+            //    className: 'btn btn-info btn-sm mx-1',
+            //    exportOptions: {
+            //        columns: ':visible'
+            //    }
+            //}
+        ]
+    });
+
+    // Evento de doble clic en una fila
+    $('#users-table tbody').on('dblclick', 'tr', function () {
+        var data = table.row(this).data();
+        if (data && data.id) {
+            window.location.href = "{% url 'grupos_view' 0 %}".replace('0', data.id);
+        }
+    });
+    $('#users-table tbody').on('click', '.btn-eye', function () {
+            var data = table.row($(this).closest('tr')).data();
+            if (data && data.id) {
+                window.location.href = "{% url 'grupos_view' 0 %}".replace('0', data.id);
+            }
+        });
+});
+
+</script>
+
+{% endblock javascripts %}

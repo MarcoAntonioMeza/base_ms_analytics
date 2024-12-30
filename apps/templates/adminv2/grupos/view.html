@@ -1,0 +1,88 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+{% block title %} {{usuario.full_name_bread}} {% endblock title %}
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'home' %}"><i class="fas fa-home"></i></a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'grupos_index' %}">GRUPOS Y PERMISOS</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {{ group.name }}
+                    </li>
+                </ol>
+            </nav>
+            <!-- Title  -->
+            <div class="row align-items-center py-4">
+
+                <div class="col-lg-12 col-5 text-right">
+                    {% if perms.usuarios.can_update_cliente %}
+                    <a href="{% url 'grupos_update' group.id %}" class="btn btn-lg btn-neutral">Editar</a>
+                    {% endif %}
+                    {% if perms.usuarios.can_delete_cliente %}
+                    <a href="{% url 'grupos_delete' group.id %}" class="btn btn-lg btn-danger">Eliminar</a>
+                    {% endif %}
+                    <a href="{% url 'grupos_index' %}" class="btn btn-lg btn-secondary">Volver</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid mt--6">
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <!-- Título de la página -->
+            <div class="card shadow">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-0">Detalles del Grupo: {{ group.name }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Nombre del grupo -->
+                    <div class="form-group mb-4">
+                        <label for="group_name" class="form-label">Nombre del Grupo</label>
+                        <input type="text" id="group_name" class="form-control form-control-alternative"
+                            value="{{ group.name }}" readonly>
+                    </div>
+
+                    <!-- Permisos del grupo (listado de permisos en lugar de un select) -->
+                    <div class="form-group">
+                        <label for="group_permissions" class="form-label">Permisos Asignados</label>
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <div class="list-group list-group-flush">
+                                    {% for permiso in group.permissions.all %}
+                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>{{ permiso.name }}</span>
+                                        <span class="badge badge-pill badge-primary">Asignado</span>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

@@ -31,13 +31,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'widget_tweaks',
+    
+    
+    'apps.adminv2',
     'apps.clientes.apps.ClientesConfig',
     'direccion.apps.DireccionConfig',  # Registra la configuración de tu aplicación
-    'widget_tweaks',
     'apps.home',
     'apps.usuario',
     'apps.socialMedia',
     'apps.simulador',
+    
+    
+    
 ]
 
 MIDDLEWARE = [
