@@ -5,29 +5,7 @@ from django.shortcuts import render
 
 def listado_modulos(request):
     modulos = [
-        {
-            'nombre': 'CONFIGURACION',
-            'url': 'user_index',
-            'app': 'usuario',
-            'icono': 'fa-cogs',  # Icono para el módulo 'USUARIOS'
-            'submodulos': [
-                {
-                    'app': 'usuario',
-                    'nombre': 'Usuarios',
-                    'permiso': 'can_view_user',
-                    'url': 'user_index',
-                    'icono': 'fa-eye',  # Icono para el submódulo 'Ver Usuarios'
-                },
-                {
-                    'app': 'auth',
-                    'nombre': 'Grupos',
-                    'permiso': 'can_view_grupo',
-                    'url': 'grupos_index',
-                    'icono': 'fa-eye',  # Icono para el submódulo 'Ver Usuarios'
-                },
-                # Más submódulos pueden añadirse aquí
-            ]
-        },
+        
         {
             'nombre': 'CLIENTES',
             'url': 'can_view_cliente',
@@ -44,7 +22,38 @@ def listado_modulos(request):
                
             ]
         },
-        # Otros módulos...
+        #=====================================
+        #   CONFIGURACIONES DEL SISTEMA
+        #=====================================
+        {
+            'nombre': 'CONFIGURACION',
+            'url': 'user_index',
+            'app': 'usuario',
+            'icono': 'fa-cogs',  # Icono para el módulo 'USUARIOS'
+            'submodulos': [
+                #=====================================
+                #  SUBMÓDULO DE USUARIOS
+                #=====================================
+                {
+                    'app': 'usuario',
+                    'nombre': 'Usuarios',
+                    'permiso': 'can_view_user',
+                    'url': 'user_index',
+                    'icono': 'fa-eye',  # Icono para el submódulo 'Ver Usuarios'
+                },
+                #=====================================
+                #  SUBMÓDULO DE GRUPOS
+                #=====================================
+                {
+                    'app': 'auth',
+                    'nombre': 'Grupos',
+                    'permiso': 'can_view_grupo',
+                    'url': 'grupos_index',
+                    'icono': 'fa-eye',  # Icono para el submódulo 'Ver Usuarios'
+                },
+                
+            ]
+        },
     ]
     
     if request.user.is_authenticated:

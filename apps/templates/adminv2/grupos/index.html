@@ -1,5 +1,5 @@
 {% extends 'layouts/base.html' %}
-{% block title %} GRUPOS Y PERMISOS  {% endblock title %}
+{% block title %} GRUPOS Y PERMISOS {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -26,6 +26,15 @@
                     </li>
                 </ol>
             </nav>
+            {% if messages %}
+            <div class="alert alert-dismissible fade show" role="alert">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
             {% if perms.auth.can_create_grupo %}
             <div class="row align-items-center py-4">
                 <div class="col-lg-12 col-5 text-left">
@@ -43,8 +52,8 @@
     <div class="row my-4">
         <div class="col-lg-12">
             <div class="card shadow-lg border-0">
-               
-    
+
+
                 <!-- Contenido del card -->
                 <div class="card-body">
                     <div class="table-responsive">
@@ -52,13 +61,13 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col" class="sort">ID</th>
-                                  
+
                                     <th scope="col">GRUPO</th>
-                                    
+
                                     <th scope="col" class="text-center">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody class="list" ></tbody>
+                            <tbody class="list"></tbody>
                         </table>
                     </div>
                 </div>
@@ -88,85 +97,85 @@
 
 
 <script>
- $(document).ready(function () {
-    var table = $('#users-table').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: {
-            url: "{% url 'list_ajax_grupos' %}",
-            type: "GET"
-        },
-        columns: [
-            { data: "id" },
-            //{ data: "usuario" },
-            { data: "name" },
-            //{ data: "email" },
-            //{ data: "created_by" },
-            //{ data: "created_at" },
-            {
+    $(document).ready(function () {
+        var table = $('#users-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "{% url 'list_ajax_grupos' %}",
+                type: "GET"
+            },
+            columns: [
+                { data: "id" },
+                //{ data: "usuario" },
+                { data: "name" },
+                //{ data: "email" },
+                //{ data: "created_by" },
+                //{ data: "created_at" },
+                {
                     data: null,
                     defaultContent: '<button class="btn btn-sm btn-info btn-eye"><i class="fas fa-eye"></i> Ver</button>'
                 }
-        ],
-        dom: 'Bfrtip', // Activa la barra de botones
-        buttons: [
-            //{
-            //    extend: 'copyHtml5',
-            //    text: 'Copiar',
-            //    className: 'btn btn-secondary btn-sm mx-1',
-            //    exportOptions: {
-            //        columns: ':visible'
-            //    }
-            //},
-            {
-                extend: 'excelHtml5',
-                text: 'Excel',
-                className: 'btn btn-success btn-sm mx-1',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                //extend: 'csvHtml5',
-                text: 'CSV',
-                className: 'btn btn-primary btn-sm mx-1',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            //{
-            //    extend: 'pdfHtml5',
-            //    text: 'PDF',
-            //    className: 'btn btn-danger btn-sm mx-1',
-            //    exportOptions: {
-            //        columns: ':visible'
-            //    }
-            //},
-            //{
-            //    extend: 'print',
-            //    text: 'Imprimir',
-            //    className: 'btn btn-info btn-sm mx-1',
-            //    exportOptions: {
-            //        columns: ':visible'
-            //    }
-            //}
-        ]
-    });
+            ],
+            dom: 'Bfrtip', // Activa la barra de botones
+            buttons: [
+                //{
+                //    extend: 'copyHtml5',
+                //    text: 'Copiar',
+                //    className: 'btn btn-secondary btn-sm mx-1',
+                //    exportOptions: {
+                //        columns: ':visible'
+                //    }
+                //},
+                {
+                    extend: 'excelHtml5',
+                    text: 'Excel',
+                    className: 'btn btn-success btn-sm mx-1',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    //extend: 'csvHtml5',
+                    text: 'CSV',
+                    className: 'btn btn-primary btn-sm mx-1',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                //{
+                //    extend: 'pdfHtml5',
+                //    text: 'PDF',
+                //    className: 'btn btn-danger btn-sm mx-1',
+                //    exportOptions: {
+                //        columns: ':visible'
+                //    }
+                //},
+                //{
+                //    extend: 'print',
+                //    text: 'Imprimir',
+                //    className: 'btn btn-info btn-sm mx-1',
+                //    exportOptions: {
+                //        columns: ':visible'
+                //    }
+                //}
+            ]
+        });
 
-    // Evento de doble clic en una fila
-    $('#users-table tbody').on('dblclick', 'tr', function () {
-        var data = table.row(this).data();
-        if (data && data.id) {
-            window.location.href = "{% url 'grupos_view' 0 %}".replace('0', data.id);
-        }
-    });
-    $('#users-table tbody').on('click', '.btn-eye', function () {
+        // Evento de doble clic en una fila
+        $('#users-table tbody').on('dblclick', 'tr', function () {
+            var data = table.row(this).data();
+            if (data && data.id) {
+                window.location.href = "{% url 'grupos_view' 0 %}".replace('0', data.id);
+            }
+        });
+        $('#users-table tbody').on('click', '.btn-eye', function () {
             var data = table.row($(this).closest('tr')).data();
             if (data && data.id) {
                 window.location.href = "{% url 'grupos_view' 0 %}".replace('0', data.id);
             }
         });
-});
+    });
 
 </script>
 

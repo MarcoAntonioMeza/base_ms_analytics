@@ -4,20 +4,27 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 from .forms.grupos import GroupForm
+from django.contrib import messages
 
 # Create your views here.
 def index (request):
     return render(request, 'adminv2/grupos/index.html')
 
-def create (request):
+def create(request):
     if request.method == 'POST':
         form = GroupForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('grupos_view', id=id)  # Redirige al listado de grupos
+            messages.success(request, "¡El grupo se ha creado exitosamente!")  # Mensaje de éxito
+            return redirect('grupos_view', id=form.instance.id)  # Redirige al detalle del grupo recién creado
+        else:
+            pass
+            #messages.error(request, "Hubo un error al crear el grupo. Por favor, revisa los campos.")  # Mensaje de error
     else:
         form = GroupForm()
-    return render(request, 'adminv2/grupos/create.html',{ 'form': form })
+    
+    return render(request, 'adminv2/grupos/create.html', {'form': form})
+
 
 def view (request, id):
     group = get_object_or_404(Group, pk=id)
@@ -36,11 +43,20 @@ def update (request, id):
     return render(request, 'adminv2/grupos/update.html', {'form': form, 'group': group})
 
 
-
-def delete (request, id):
+def delete(request, id):
     group = get_object_or_404(Group, pk=id)
-    group.delete()
-    return redirect('group_list')
+
+    # Verificar si el grupo tiene usuarios asignados
+    if group.user_set.exists():
+        messages.error(request, "No se puede eliminar el grupo porque tiene usuarios asignados.")
+    else:
+        try:
+            group.delete()
+            messages.success(request, "¡El grupo se ha eliminado exitosamente!")  # Mensaje de éxito
+        except Exception as e:  # Captura cualquier excepción
+            messages.error(request, f"Hubo un error al eliminar el grupo. Detalle del error: {str(e)}")
+    
+    return redirect('grupos_index')
 
 
 
