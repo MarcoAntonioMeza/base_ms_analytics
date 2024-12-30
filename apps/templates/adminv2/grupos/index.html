@@ -26,7 +26,7 @@
                     </li>
                 </ol>
             </nav>
-            {% if perms.usuarios.can_create_user %}
+            {% if perms.auth.can_create_grupo %}
             <div class="row align-items-center py-4">
                 <div class="col-lg-12 col-5 text-left">
                     <a href="{% url 'grupos_create' %}" class="btn btn-lg btn-secondary">NUEVO</a>

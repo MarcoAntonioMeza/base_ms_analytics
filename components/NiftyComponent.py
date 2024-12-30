@@ -12,9 +12,17 @@ def listado_modulos(request):
             'icono': 'fa-cogs',  # Icono para el módulo 'USUARIOS'
             'submodulos': [
                 {
+                    'app': 'usuario',
                     'nombre': 'Usuarios',
                     'permiso': 'can_view_user',
                     'url': 'user_index',
+                    'icono': 'fa-eye',  # Icono para el submódulo 'Ver Usuarios'
+                },
+                {
+                    'app': 'auth',
+                    'nombre': 'Grupos',
+                    'permiso': 'can_view_grupo',
+                    'url': 'grupos_index',
                     'icono': 'fa-eye',  # Icono para el submódulo 'Ver Usuarios'
                 },
                 # Más submódulos pueden añadirse aquí
@@ -27,6 +35,7 @@ def listado_modulos(request):
             'icono': 'fa-store',  # Icono para el módulo 'Ventas'
             'submodulos': [
                 {
+                    'app': 'clientes',
                     'nombre': 'Clientes',
                     'permiso': 'can_view_cliente',
                     'url': 'clientes_index',#clientes_index
@@ -41,6 +50,7 @@ def listado_modulos(request):
     if request.user.is_authenticated:
         #print( request.user.get_all_permissions(),'permisos')
         permisos_usuario = request.user.get_all_permissions()
+        #print(permisos_usuario,'permisos')
         modulos_accesibles = []
 
         for modulo in modulos:
@@ -51,7 +61,7 @@ def listado_modulos(request):
                 'submodulos': [],
             }
             for submodulo in modulo['submodulos']:
-                if f'{modulo["app"]}.{submodulo["permiso"]}' in permisos_usuario:
+                if f'{submodulo["app"]}.{submodulo["permiso"]}' in permisos_usuario:
                     modulos_acc['submodulos'].append(submodulo)
             
             if modulos_acc['submodulos']:

@@ -27,10 +27,10 @@
             <div class="row align-items-center py-4">
 
                 <div class="col-lg-12 col-5 text-right">
-                    {% if perms.usuarios.can_update_cliente %}
+                    {% if perms.auth.can_update_grupo %}
                     <a href="{% url 'grupos_update' group.id %}" class="btn btn-lg btn-neutral">Editar</a>
                     {% endif %}
-                    {% if perms.usuarios.can_delete_cliente %}
+                    {% if perms.auth.can_delete_grupo %}
                     <a href="{% url 'grupos_delete' group.id %}" class="btn btn-lg btn-danger">Eliminar</a>
                     {% endif %}
                     <a href="{% url 'grupos_index' %}" class="btn btn-lg btn-secondary">Volver</a>
