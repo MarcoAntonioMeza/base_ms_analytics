@@ -16,9 +16,9 @@ APPLY_LOAD_SEPOMEX = False
 SECRET_KEY = 'django-insecure-2^_yk^ax2&0-aq%c(44f069a&@=%i$w2o6xn!^s-6%+b3h681w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-#ALLOWED_HOSTS = []
-ALLOWED_HOSTS =  []
+#DEBUG = False
+DEBUG =True
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '*']
 
 
 
@@ -127,15 +127,11 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
-STATIC_ROOT = os.path.join(CORE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-
-# Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    os.path.join(CORE_DIR, 'apps/static'),
-)
-
+STATIC_ROOT = os.path.join(CORE_DIR, 'staticfiles')  # Lugar donde se recopilan los archivos estáticos
+STATICFILES_DIRS = [
+    os.path.join(CORE_DIR, 'apps/static'),  # Carpetas donde se encuentran los archivos estáticos
+]
 # Directorio de archivos multimedia
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(CORE_DIR, 'media')

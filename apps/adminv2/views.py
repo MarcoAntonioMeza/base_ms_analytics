@@ -5,8 +5,12 @@ from django.http import JsonResponse
 from django.core.paginator import Paginator
 from .forms.grupos import GroupForm
 from django.contrib import messages
-
-# Create your views here.
+from django.views.defaults import page_not_found
+"""
+================================================================
+                          GRUPOS 
+================================================================
+"""
 def index (request):
     return render(request, 'adminv2/grupos/index.html')
 
@@ -58,14 +62,6 @@ def delete(request, id):
     
     return redirect('grupos_index')
 
-
-
-
-
-
-
-
-
 def index_list_ajax(request):
     draw = int(request.GET.get('draw', 1))
     start = int(request.GET.get('start', 0))
@@ -111,3 +107,39 @@ def index_list_ajax(request):
         "recordsFiltered": paginator.count,
         "data": data
     })
+
+
+"""
+================================================================
+                          ERRORS 
+================================================================
+"""
+def error_404(request, exception):
+    return render(request, 'adminv2/errors/404.html', status=404)
+
+def pag_404_not_found(request, exception, template_name="errors/404.html"):
+    try:
+        response = render(request, template_name)
+        response.status_code = 404
+        return response
+    except Exception as e:
+        print(f"Error en la función 404: {e}")
+        raise e  # Esto ayudará a identificar el error exacto
+    
+def pag_403_forbidden(request, exception, template_name="errors/403.html"):
+    try:
+        response = render(request, template_name)
+        response.status_code = 403
+        return response
+    except Exception as e:
+        print(f"Error en la función 404: {e}")
+        raise e  # Esto ayudará a identificar el error exacto
+    
+def pag_500_server_error(request, template_name="errors/500.html"):
+    try:
+        response = render(request, template_name)
+        response.status_code = 500
+        return response
+    except Exception as e:
+        print(f"Error en la función 404: {e}")
+        raise e  # Esto ayudará a identificar el error exacto

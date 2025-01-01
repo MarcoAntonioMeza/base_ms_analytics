@@ -62,7 +62,7 @@ def update(request, id):
     if request.method == 'POST':
         cliente_form = ClienteForm(request.POST, instance=cliente)
         direccion_form = DireccionForm(request.POST, instance=direccion)
-        print(request.POST)
+        #print(request.POST)
         if cliente_form.is_valid() and direccion_form.is_valid():
             cliente = cliente_form.save(commit=False)
             cliente.save()

@@ -1,5 +1,11 @@
-from django.urls import path,re_path
+from django.urls import path
 from . import views
+from django.conf.urls import handler404
+from apps.adminv2.views import pag_404_not_found
+
+#handler404 = pag_404_not_found
+#handler404 = "apps.adminv2.views.pag_404_not_found"
+
 
 urlpatterns = [
     path('', views.index, name='clientes_index'),

@@ -7,3 +7,4 @@ imagen_pieza
 /apps/static/assets/vendor
 /profile_pics/
 media/*
+staticfiles/
