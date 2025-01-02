@@ -30,7 +30,7 @@ def create(request):
     return render(request, 'adminv2/grupos/create.html', {'form': form})
 
 
-def view (request, id):
+def view(request, id):
     group = get_object_or_404(Group, pk=id)
     return render(request, 'adminv2/grupos/view.html', {'group': group})
 

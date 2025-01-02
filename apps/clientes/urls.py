@@ -1,18 +1,15 @@
 from django.urls import path
 from . import views
-from django.conf.urls import handler404
-from apps.adminv2.views import pag_404_not_found
+from django.contrib.auth.decorators import login_required
 
-#handler404 = pag_404_not_found
-#handler404 = "apps.adminv2.views.pag_404_not_found"
 
 
 urlpatterns = [
-    path('', views.index, name='clientes_index'),
-    path('create/', views.create, name='clientes_create'),
-    path('view/<int:id>/', views.view, name='cliente_view'),
-    path('update/<int:id>/', views.update, name='cliente_update'),
-    path('delete/<int:id>/', views.delete, name='cliente_delete'),
+    path('',                 login_required(views.index), name='clientes_index'),
+    path('create/',          login_required(views.create), name='clientes_create'),
+    path('view/<int:id>/',   login_required(views.view), name='cliente_view'),
+    path('update/<int:id>/', login_required(views.update), name='cliente_update'),
+    path('delete/<int:id>/', login_required(views.delete), name='cliente_delete'),
     
     
     
@@ -20,6 +17,6 @@ urlpatterns = [
     
     
     #AJAX
-    path('cliente-list-ajax/', views.index_list_ajax, name='list_ajax_clientes'),
+    path('cliente-list-ajax/', login_required(views.index_list_ajax), name='list_ajax_clientes'),
     
 ]

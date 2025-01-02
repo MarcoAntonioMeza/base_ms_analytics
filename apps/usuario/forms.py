@@ -2,6 +2,9 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Usuario
 from django import forms
 from django.contrib.auth.models import  Group,Permission
+#==================================================================
+#                            USER FORM
+#==================================================================
 
 class UsuarioCreationForm(UserCreationForm):
   
@@ -39,3 +42,10 @@ class UsuarioCreationForm(UserCreationForm):
         if not picture:
             return None  
         return picture
+    
+#==================================================================
+#                            LOGIN
+#==================================================================
+class LoginForm(forms.Form):
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control' , 'placeholder': 'Usuario'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Contraseña'}))
