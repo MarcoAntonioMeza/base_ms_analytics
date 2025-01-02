@@ -23,6 +23,8 @@ urlpatterns = [
     path("clientes/", include("apps.clientes.urls")),
     path("adminv2/", include("apps.adminv2.urls")),
     
+    path("social-media/", include("apps.socialMedia.urls")),
+    
     
     path("", include("apps.home.urls")),  
     

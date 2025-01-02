@@ -38,34 +38,34 @@ def crear_usuario(request):
         user_form = UsuarioCreationForm(request.POST, request.FILES)
         direccion_form = DireccionForm(request.POST)
 
-        #print(request.POST)
-
         # Verificar si ambos formularios son válidos
         if user_form.is_valid() and direccion_form.is_valid():
             usuario = user_form.save(commit=False)  # Guardar el usuario
             grupo = user_form.cleaned_data['grupos']
             permisos = user_form.cleaned_data['permisos']
             usuario.save()  # Guardar el usuario
+
+            # Asignar los grupos (si hay varios, usamos .set())
             if grupo:
-                usuario.groups.add(grupo)
+                usuario.groups.set(grupo)  # Asegúrate de que 'grupo' sea un queryset o lista de objetos
+
+            # Asignar permisos (si hay varios, usamos .set())
             if permisos:
                 usuario.user_permissions.set(permisos)
-                
+
             direccion = direccion_form.save(commit=False)  # No guardar aún la dirección
 
             # Si no se proporcionó un código postal, lo dejamos como None
-            if  direccion_form.cleaned_data.get('estado') and direccion_form.cleaned_data.get('municipio') and direccion_form.cleaned_data.get('colonia'):
-                #direccion.codigo_postal = None  # Asignar None si no hay código postal
+            if direccion_form.cleaned_data.get('estado') and direccion_form.cleaned_data.get('municipio') and direccion_form.cleaned_data.get('colonia'):
                 direccion.usuario = usuario  # Asociar la dirección al usuario
                 direccion.save()  # Guardar la dirección
 
-            return redirect('user_view',id=usuario.id)  # Redirigir al índice de usuarios u otra página
+            return redirect('user_view', id=usuario.id)  # Redirigir al índice de usuarios u otra página
         else:
             # Si algún formulario no es válido, mostramos los errores en el template
             return render(request, 'user/create.html', {
                 'user_form': user_form,
                 'direccion_form': direccion_form,
-                #'estados': estados,
             })
     else:
         # Si no es un POST, crear formularios vacíos
@@ -75,8 +75,8 @@ def crear_usuario(request):
     return render(request, 'user/create.html', {
         'user_form': user_form,
         'direccion_form': direccion_form,
-        #'estados': estados,
     })
+
 
 
 @permission_required('usuarios.can_udate_user', raise_exception=True)

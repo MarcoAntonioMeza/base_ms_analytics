@@ -1,0 +1,266 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+
+{% block title %} Publicaciones {% endblock title %}
+
+{% block stylesheets %}
+
+{% endblock stylesheets %}
+
+{% block content %}
+<div id="app">
+    <div class="header bg-primary pb-6">
+        <div class="container-fluid">
+            <div class="header-body">
+                <!-- Breadcrumb
+                <nav aria-label="breadcrumb" class="d-none d-md-inline-block mb-4">
+                    <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                        <li class="breadcrumb-item">
+                            <a href="{% url 'home' %}"><i class="fas fa-home"></i></a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            SOCIAL
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            PUBLICACIONES
+                        </li>
+                    </ol>
+                </nav> -->
+
+                <div class="row align-items-center py-4">
+                    <div class="col-lg-12 col-5 text-left">
+                        <button class="btn btn-lg btn-secondary" data-toggle="modal" data-target="#nuevoPostModal">
+                            NUEVO POST
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade social-modal" id="nuevoPostModal" tabindex="-1" role="dialog"
+        aria-labelledby="nuevoPostLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="nuevoPostLabel">Crear Nueva Publicación</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form @submit.prevent="crearPublicacion" enctype="multipart/form-data">
+                        <div class="d-flex">
+                            <img src="{% if request.user.profile_picture and request.user.profile_picture != '' %}{{ request.user.profile_picture.url }}{% else %}{% static 'assets/img/theme/team-4.jpg' %}{% endif %}"
+                                alt="{{ request.user.full_name }}" class=" rounded-circle mr-3">
+                            <textarea v-model="nuevaPublicacion.contenido" class="form-control"
+                                placeholder="¿Qué estás pensando?" rows="3" required></textarea>
+                        </div>
+                        <div class="mt-3">
+                            <label for="imagen" class="btn btn-light btn-sm">
+                                <i class="fas fa-image"></i> Añadir Imagen
+                            </label>
+                            <input type="file" id="imagen" class="d-none" @change="procesarImagen">
+                        </div>
+                        <div class="mt-3" v-if="imagenPrevisualizada">
+                            <p>Previsualización:</p>
+                            <img :src="imagenPrevisualizada" class="img-fluid rounded" alt="Previsualización de imagen">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" @click="crearPublicacion">Publicar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="container-fluid mt--6">
+        <h2 class="mb-4">Publicaciones</h2>
+        <div class="row">
+            <div v-for="publicacion in publicaciones" :key="publicacion.id" class="col-md-6 mb-4">
+                <div class="social-card social-shadow">
+                    <div class="social-card-header d-flex align-items-center px-4 py-3">
+                        <img :src="publicacion.autor_image" alt="Perfil" class="social-rounded-circle mr-3" width="40"
+                            height="40">
+                        <div>
+                            <h6 class="mb-0">[ publicacion.autor ]</h6>
+                            <small class="text-muted">[ publicacion.fecha_creacion ]</small>
+                        </div>
+                    </div>
+                    <div class="social-card-body px-4 py-3">
+                        <p>[ publicacion.contenido ]</p>
+                        <div v-if="publicacion.imagen" class="my-3">
+                            <img :src="publicacion.imagen" class="social-img-fluid social-rounded img-max-size" alt="Imagen de publicación">
+                        </div>
+                        
+                    </div>
+                    <div class="social-card-footer px-4 py-2 d-flex justify-content-between align-items-center">
+                        <button class="social-btn social-btn-sm social-btn-outline-primary"
+                            @click="reaccionar(publicacion.id)">
+                            <i class="fas fa-heart"></i> Me gusta ([ publicacion.reacciones ])
+                        </button>
+                        <button class="social-btn social-btn-sm social-btn-outline-secondary"
+                            @click="toggleComentarios(publicacion.id)">
+                            <i class="fas fa-comment"></i> Ver comentarios
+                        </button>
+                    </div>
+                    <div v-show="publicacion.mostrarComentarios" class="collapse show">
+                        <div class="social-card-body px-4 py-3">
+                            <h6>Comentarios</h6>
+                            <div v-for="comentario in publicacion.comentarios" :key="comentario.id" class="mb-2">
+                                <strong>[ comentario.autor ]:</strong> [comentario.contenido ]
+                            </div>
+                            <textarea v-model="nuevoComentario" placeholder="Escribe un comentario..."
+                                class="social-form-control mb-2"></textarea>
+                            <button class="social-btn social-btn-sm social-btn-outline-secondary"
+                                @click="comentar(publicacion.id)">Comentar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+
+
+</div>
+{% endblock content %}
+
+
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        delimiters: ['[', ']'],
+        data() {
+            return {
+                mostrarComentarios: true,
+                publicaciones: [],  // Lista de publicaciones
+                nuevaPublicacion: {
+                    contenido: '',
+                    imagen: null
+                },
+                nuevoComentario: '',
+                imagenPrevisualizada: null
+            };
+        },
+        created() {
+            this.obtenerPublicaciones();
+        },
+        methods: {
+            procesarImagen(event) {
+                const archivo = event.target.files[0];
+                if (archivo) {
+                    this.nuevaPublicacion.imagen = archivo;
+
+                    // Crear una URL temporal para mostrar la imagen
+                    this.imagenPrevisualizada = URL.createObjectURL(archivo);
+                }
+            },
+            crearPublicacion() {
+                const self = this;
+                const formData = new FormData();
+                formData.append('contenido', this.nuevaPublicacion.contenido);
+                if (this.nuevaPublicacion.imagen) {
+                    formData.append('imagen', this.nuevaPublicacion.imagen);
+                }
+                formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+                $.ajax({
+                    url: '{% url "crear_publicacion" %}',
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: (response) => {
+                        this.publicaciones.unshift(response);
+                        this.nuevaPublicacion.contenido = '';
+                        this.nuevaPublicacion.imagen = null;
+                        this.imagenPrevisualizada = null; // Limpiar la previsualización
+                        alert('Publicación creada con éxito');
+                        self.obtenerPublicaciones();
+
+                    },
+                    error: function () {
+                        alert('Error al crear la publicación');
+                    }
+                });
+            },
+            obtenerPublicaciones() {
+                $.ajax({
+                    url: '{% url "obtener_publicaciones" %}',
+                    method: 'GET',
+                    success: (response) => {
+                        this.publicaciones = response;
+                    },
+                    error: function () {
+                        alert('Error al cargar las publicaciones');
+                    }
+                });
+            },
+            reaccionar(publicacionId) {
+                $.ajax({
+                    url: `/reaccionar-publicacion/${publicacionId}/`,
+                    method: 'POST',
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: (response) => {
+                        const publicacion = this.publicaciones.find(pub => pub.id === publicacionId);
+                        if (publicacion) publicacion.reacciones = response.reacciones;
+                    },
+                    error: function () {
+                        alert('Error al reaccionar a la publicación');
+                    }
+                });
+            },
+            comentar(publicacionId) {
+                if (!this.nuevoComentario) return;
+                $.ajax({
+                    url: `/comentar-publicacion/${publicacionId}/`,
+                    method: 'POST',
+                    data: {
+                        contenido: this.nuevoComentario,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: (response) => {
+                        const publicacion = this.publicaciones.find(pub => pub.id === publicacionId);
+                        if (publicacion) publicacion.comentarios.push(response);
+                        this.nuevoComentario = '';
+                    },
+                    error: function () {
+                        alert('Error al enviar el comentario');
+                    }
+                });
+            },
+            toggleComentarios(publicacionId) {
+                console.log('Mostrar comentarios de la publicación', publicacionId);
+
+                //this.mostrarComentarios = true;
+                const publicacion = this.publicaciones.find(pub => pub.id === publicacionId);
+                console.log(publicacion);
+
+                if (publicacion) {
+                    publicacion.mostrarComentarios = !publicacion.mostrarComentarios; // Alternar la visibilidad
+                }
+            },
+            comentar(publicacionId) {
+                // Aquí iría la lógica para agregar un comentario a la publicación.
+            }
+        }
+    });
+</script>
+{% endblock javascripts %}

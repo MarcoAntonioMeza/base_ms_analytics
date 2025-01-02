@@ -1,3 +1,5 @@
+import os
+import uuid
 from django.db import models
 from apps.usuario.models import Usuario
 
@@ -9,6 +11,16 @@ class Publicacion(models.Model):
 
     def __str__(self):
         return f"Publicación de {self.autor.username} el {self.fecha_creacion.strftime('%Y-%m-%d %H:%M:%S')}"
+    
+    def save(self, *args, **kwargs):
+        # Cambiar el nombre del archivo de la imagen a un nombre único aleatorio
+        if self.imagen:
+            ext = self.imagen.name.split('.')[-1]
+            new_name = f"{uuid.uuid4().hex}.{ext}"
+            self.imagen.name = os.path.join(new_name)
+        else:
+            self.imagen = None
+        super(Publicacion, self).save(*args, **kwargs)
 
 
 class Comentario(models.Model):
@@ -19,6 +31,8 @@ class Comentario(models.Model):
 
     def __str__(self):
         return f"Comentario de {self.autor.username} en {self.publicacion.id}"
+    
+    
 
 
 class MeGustaPublicacion(models.Model):
