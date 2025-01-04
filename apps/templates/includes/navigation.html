@@ -164,7 +164,7 @@
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-dark bg-default  dropdown-menu-right ">
             <div class="row shortcuts px-4">
-              <a href="{%url 'home'%}" class="col-4 shortcut-item">
+              <a href="{%url 'home'%}" class="col-4 shortcut-item text-center">
                 <span class="shortcut-media avatar rounded-circle bg-gradient-red">
                   <i class="fas fa-home"></i>
                 </span>
@@ -219,7 +219,7 @@
             <div class="media align-items-center">
               <span class="avatar avatar-sm rounded-circle">
                 <img
-                  src="{% if request.user.profile_picture and request.user.profile_picture != '' %}{{ request.user.profile_picture.url }}{% else %}{% static 'assets/img/theme/team-4.jpg' %}{% endif %}"
+                  src="{% if request.user.profile_picture and request.user.profile_picture != '' %}{{ request.user.profile_picture.url }}{% else %}{% static '/assets/img/brand/icon_user.png' %}{% endif %}"
                   alt="{{ request.user.full_name }}">
               </span>
               <div class="media-body  ml-2  d-none d-lg-block">

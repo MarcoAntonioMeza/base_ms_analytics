@@ -7,10 +7,10 @@ def listado_modulos(request):
     modulos = [
         
         {
-            'nombre': 'CLIENTES',
+            'nombre': 'CRM',
             'url': 'can_view_cliente',
             'app': 'clientes',
-            'icono': 'fa-store',  # Icono para el módulo 'Ventas'
+            'icono': 'fa-users',  # Icono para el módulo 'Ventas'
             'submodulos': [
                 {
                     'app': 'clientes',

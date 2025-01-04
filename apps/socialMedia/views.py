@@ -68,37 +68,23 @@ def crear_publicacion(request):
             'contenido': publicacion.contenido,
             'imagen': publicacion.imagen.url if publicacion.imagen else None,
             'fecha_creacion': publicacion.fecha_creacion.strftime('%d de %B de %Y %H:%M:%S') , #publicacion.fecha_creacion.strftime('%Y-%m-%d %H:%M:%S'),
-            'reacciones': [],#publicacion.reacciones,
+            'reacciones': publicacion.count_likes,#publicacion.reacciones,
             'comentarios': []
         })
 
 def obtener_publicaciones(request):
-    publicaciones = Publicacion.objects.all().order_by('-fecha_creacion')
-    data = []
-    for pub in publicaciones:
-        data.append({
-            'id': pub.id,
-            'autor': pub.autor.username,
-            'autor_image': pub.autor.profile_picture.url if pub.autor.profile_picture else 'assets/img/theme/team-4.jpg',
-            'contenido': pub.contenido,
-            'imagen': pub.imagen.url if pub.imagen else None,
-
-            'fecha_creacion': pub.fecha_creacion.strftime('%d de %B de %Y %H:%M:%S'),
-            'reacciones': None,#pub.reacciones,
-            'mostrarComentarios': False,
-            'comentarios': [
-                {'id': com.id, 'autor': com.autor.username, 'contenido': com.contenido}
-                for com in pub.comentarios.all()
-            ]
-        })
+    data = Publicacion.get_publicaciones()
     return JsonResponse(data, safe=False)
 
 @csrf_exempt
-def reaccionar_publicacion(request, publicacion_id):
-    publicacion = get_object_or_404(Publicacion, id=publicacion_id)
-    publicacion.reacciones += 1
-    publicacion.save()
-    return JsonResponse({'reacciones': publicacion.reacciones})
+def reaccionar_publicacion(request):
+    if request.method == 'POST':
+        publicacion_id = request.POST.get('publicacion_id')
+        
+        publicacion = get_object_or_404(Publicacion, id=publicacion_id)
+        publicacion.aumentar_likes()
+        
+        return JsonResponse({'reacciones': publicacion.count_likes})
 
 @csrf_exempt
 def comentar_publicacion(request, publicacion_id):

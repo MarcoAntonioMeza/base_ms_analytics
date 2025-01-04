@@ -2,7 +2,7 @@
 {% load static %}
 
 
-{% block title %} Publicaciones {% endblock title %}
+{% block title %} COMUNIDAD {% endblock title %}
 
 {% block stylesheets %}
 
@@ -106,7 +106,7 @@
                     <div class="social-card-footer px-4 py-2 d-flex justify-content-between align-items-center">
                         <button class="social-btn social-btn-sm social-btn-outline-primary"
                             @click="reaccionar(publicacion.id)">
-                            <i class="fas fa-heart"></i> Me gusta ([ publicacion.reacciones ])
+                            <i class="fas fa-bolt"></i> Me gusta ([ publicacion.reacciones ])
                         </button>
                         <button class="social-btn social-btn-sm social-btn-outline-secondary"
                             @click="toggleComentarios(publicacion.id)">
@@ -213,10 +213,11 @@
             },
             reaccionar(publicacionId) {
                 $.ajax({
-                    url: `/reaccionar-publicacion/${publicacionId}/`,
+                    url: '{% url "reaccionar_publicacion"   %}',
                     method: 'POST',
                     data: {
-                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        publicacion_id: publicacionId
                     },
                     success: (response) => {
                         const publicacion = this.publicaciones.find(pub => pub.id === publicacionId);
