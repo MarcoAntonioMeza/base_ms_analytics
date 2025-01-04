@@ -34,7 +34,10 @@
       minute: '2-digit',
       //second: '2-digit',
     };
-    document.getElementById('datetime').textContent = ahora.toLocaleString('es-MX', opciones);
+    let hora = document.getElementById('datetime');
+    if (hora) {
+      hora.textContent = ahora.toLocaleDateString('es-ES', opciones);
+    }
   }
 
   // Actualizar cada segundo

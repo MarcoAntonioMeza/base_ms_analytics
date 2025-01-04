@@ -1,16 +1,22 @@
+<!-- Footer -->
+<footer class="footer">
+  <div class="row align-items-center justify-content-xl-between">
+    <div class="col-xl-6">
+      <div class="text-center text-xl-left text-muted">
+        &copy; <span id="year"></span> <a href="#" class="font-weight-bold">By antonio</a>. 
+      </div>
+    </div>
+    <!--
+    <div class="col-xl-6">
+      <div class="text-center text-xl-right text-muted">
+        <a href="#" class="mr-3">Política de privacidad</a>
+        <a href="#">Términos y condiciones</a>
+      </div>
+    </div>
+    -->
+  </div>
+</footer>
 
-      <!-- Footer -->
-      <footer class="footer">
-        <div class="row align-items-center justify-content-xl-between">
-          <div class="col-xl-6">
-            <div class="text-center text-xl-left text-muted">
-             
-            </div>
-          </div>
-          <div class="col-xl-6">
-            <div class="text-center text-xl-right text-muted">
-             
-            </div>
-          </div>
-        </div>
-      </footer>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>

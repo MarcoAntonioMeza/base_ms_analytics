@@ -2,6 +2,7 @@ import os
 import uuid
 from django.db import models
 from django.templatetags.static import static
+from django.utils.timesince import timesince
 from apps.usuario.models import Usuario
 
 class Publicacion(models.Model):
@@ -38,25 +39,28 @@ class Publicacion(models.Model):
                 'contenido': pub.contenido,
                 'imagen': pub.imagen.url if pub.imagen else None,
 
-                'fecha_creacion': pub.fecha_creacion.strftime('%d de %B de %Y %H:%M:%S'),
+                'fecha_creacion': f"Hace {timesince(pub.fecha_creacion)} ", #.strftime('%d de %B de %Y %H:%M:%S'),
                 'reacciones': pub.count_likes,#pub.reacciones,
                 'mostrarComentarios': False,
                 'comentarios': [
-                    {'id': com.id, 'autor': com.autor.username, 'contenido': com.contenido}
+                    {'id': com.id, 'autor': com.autor.username, 'contenido': com.contenido, 'fecha_creacion': f"Hace {timesince(com.fecha_creacion)} "} #com.fecha_creacion.strftime('%d de %B de %Y %H:%M:%S')}
                     for com in pub.comentarios.all()
                 ]
             })
         return data
     
     def save(self, *args, **kwargs):
-        # Cambiar el nombre del archivo de la imagen a un nombre único aleatorio
-        if self.imagen:
+        # Solo cambiar el nombre del archivo si es una nueva imagen
+        if self.imagen and not self.pk:  # Solo si es una nueva instancia
             ext = self.imagen.name.split('.')[-1]
             new_name = f"{uuid.uuid4().hex}.{ext}"
             self.imagen.name = os.path.join(new_name)
-        else:
-            self.imagen = None
+        elif not self.imagen and self.pk:
+            # Mantener la imagen actual si no se proporciona una nueva en la actualización
+            old_instance = Publicacion.objects.get(pk=self.pk)
+            self.imagen = old_instance.imagen
         super(Publicacion, self).save(*args, **kwargs)
+
 
 
 class Comentario(models.Model):

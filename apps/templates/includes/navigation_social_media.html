@@ -1,0 +1,81 @@
+{% load static %}
+<nav class="navbar navbar-top navbar-expand navbar-dark bg-primary border-bottom">
+
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidenav-collapse-main"
+      aria-controls="sidenav-collapse-main" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+      <!-- Navbar links -->
+      {% if request.user.is_authenticated %}
+      <div class="datetime-container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidenav-collapse-main"
+          aria-controls="sidenav-collapse-main" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <span id="datetime">Cargando fecha y hora...</span>
+      </div>
+      <ul class="navbar-nav align-items-center  ml-md-auto ">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home' %}">
+            <i class="fas fa-home"></i>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
+        <li class="nav-item dropdown">
+          <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            <div class="media align-items-center">
+              <span class="avatar avatar-sm rounded-circle">
+                <img
+                  src="{% if request.user.profile_picture and request.user.profile_picture != '' %}{{ request.user.profile_picture.url }}{% else %}{% static '/assets/img/brand/icon_user.png' %}{% endif %}"
+                  alt="{{ request.user.full_name }}">
+              </span>
+              <div class="media-body  ml-2  d-none d-lg-block">
+                <span class="mb-0 text-sm  font-weight-bold">
+                  {{ request.user.username }}
+                </span>
+              </div>
+            </div>
+          </a>
+          <div class="dropdown-menu  dropdown-menu-right ">
+            <div class="dropdown-header noti-title">
+              <h6 class="text-overflow m-0">¡Bienvenido!</h6>
+            </div>
+            <a href="" class="dropdown-item">
+              <i class="ni ni-single-02"></i>
+              <span>My profile</span>
+            </a>
+            <!--<a target="_blank" href="http://appseed.us/support" class="dropdown-item">
+              <i class="ni ni-support-16"></i>
+              <span>Support</span>
+            </a>-->
+            <div class="dropdown-divider"></div>
+            <a href="{% url 'logout' %}" class="dropdown-item">
+              <i class="ni ni-user-run text-red"></i>
+              <span>CERRAR SESIÓN</span>
+            </a>
+          </div>
+        </li>
+      </ul>
+      {% else %}
+      <ul class="navbar-nav align-items-center  ml-md-auto ">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">
+            <i class="fas fa-user"></i>
+          </a>
+        </li>
+      </ul>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+<script>
+
+</script>

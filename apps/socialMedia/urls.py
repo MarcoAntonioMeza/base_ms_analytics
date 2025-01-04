@@ -12,5 +12,5 @@ urlpatterns = [
     path('crear-publicacion/', views.crear_publicacion, name='crear_publicacion'),
     path('obtener-publicaciones/', views.obtener_publicaciones, name='obtener_publicaciones'),
     path('reaccionar-publicacion/', views.reaccionar_publicacion, name='reaccionar_publicacion'),
-    path('comentar-publicacion/<int:publicacion_id>/', views.comentar_publicacion, name='comentar_publicacion'),
+    path('comentar-publicacion/', views.comentar_publicacion, name='comentar_publicacion'),
 ]

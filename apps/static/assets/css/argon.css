@@ -97,6 +97,34 @@ body {
 /**
 MODAL SOCIAL MEDIA
 */
+/* Contenedor principal de los comentarios con scroll */
+.comentarios-container {
+  max-height: 300px;    /* Limita la altura del contenedor de comentarios */
+  overflow-y: auto;     /* Muestra el scroll si los comentarios exceden el tamaño */
+  padding-right: 10px;  /* Para el scroll */
+  margin-bottom: 10px;  /* Espacio inferior */
+}
+
+/* Contenedor individual de cada comentario */
+.comentario-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd; /* Separación entre comentarios */
+}
+
+/* Estilo del contenido del comentario */
+.comentario-contenido {
+  word-wrap: break-word;  /* Asegura que el texto largo se ajuste dentro del contenedor */
+  font-size: 14px;         /* Ajusta el tamaño del texto */
+  line-height: 1.4;        /* Mejora la legibilidad */
+}
+
+/* Estilo para hacer más pequeños los detalles del comentario */
+.comentario-container {
+  max-height: 120px;    /* Controla la altura del contenedor individual del comentario */
+  overflow-y: auto;     /* Solo aparece el scroll si el comentario es largo */
+}
+
+
 .social-card {
   border-radius: 15px;
   border: 1px solid #f0f0f0;

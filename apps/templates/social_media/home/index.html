@@ -1,33 +1,18 @@
-{% extends 'layouts/base.html' %}
+{% extends 'layouts/base_social_media.html' %}
 {% load static %}
 
 
 {% block title %} COMUNIDAD {% endblock title %}
 
-{% block stylesheets %}
 
-{% endblock stylesheets %}
 
 {% block content %}
 <div id="app">
     <div class="header bg-primary pb-6">
         <div class="container-fluid">
             <div class="header-body">
-                <!-- Breadcrumb
-                <nav aria-label="breadcrumb" class="d-none d-md-inline-block mb-4">
-                    <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                        <li class="breadcrumb-item">
-                            <a href="{% url 'home' %}"><i class="fas fa-home"></i></a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            SOCIAL
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">
-                            PUBLICACIONES
-                        </li>
-                    </ol>
-                </nav> -->
 
+                {% if request.user.is_authenticated %}
                 <div class="row align-items-center py-4">
                     <div class="col-lg-12 col-5 text-left">
                         <button class="btn btn-lg btn-secondary" data-toggle="modal" data-target="#nuevoPostModal">
@@ -35,6 +20,7 @@
                         </button>
                     </div>
                 </div>
+                {% endif %}
 
 
             </div>
@@ -98,38 +84,59 @@
                     </div>
                     <div class="social-card-body px-4 py-3">
                         <p>[ publicacion.contenido ]</p>
-                        <div v-if="publicacion.imagen" class="my-3">
-                            <img :src="publicacion.imagen" class="social-img-fluid social-rounded img-max-size" alt="Imagen de publicación">
+                        <div v-if="publicacion.imagen" class="my-3 text-center">
+                            <img :src="publicacion.imagen" class="social-img-fluid social-rounded img-max-size"
+                                alt="Imagen de publicación">
                         </div>
-                        
+
                     </div>
                     <div class="social-card-footer px-4 py-2 d-flex justify-content-between align-items-center">
                         <button class="social-btn social-btn-sm social-btn-outline-primary"
-                            @click="reaccionar(publicacion.id)">
+                            :disabled="!is_authenticated" @click="reaccionar(publicacion.id)">
                             <i class="fas fa-bolt"></i> Me gusta ([ publicacion.reacciones ])
                         </button>
+                        <span v-if="!is_authenticated" class="text-muted">Inicia sesión para interactuar</span>
+
                         <button class="social-btn social-btn-sm social-btn-outline-secondary"
                             @click="toggleComentarios(publicacion.id)">
-                            <i class="fas fa-comment"></i> Ver comentarios
+                            <i class="fas fa-comment"></i> Ver comentarios ([ publicacion.comentarios.length ])
                         </button>
                     </div>
-                    <div v-show="publicacion.mostrarComentarios" class="collapse show">
-                        <div class="social-card-body px-4 py-3">
-                            <h6>Comentarios</h6>
-                            <div v-for="comentario in publicacion.comentarios" :key="comentario.id" class="mb-2">
-                                <strong>[ comentario.autor ]:</strong> [comentario.contenido ]
+                    <div v-show="publicacion.mostrarComentarios" class="comentarios-container">
+                        <div v-for="comentario in publicacion.comentarios" :key="comentario.id"
+                            class="comentario-item mb-2">
+                            <div class="d-flex align-items-start mb-3">
+                                <div class="comentario-container">
+                                    <strong>[ comentario.autor ]</strong>
+                                    <p class="text-muted small">[ comentario.fecha_creacion ]</p>
+                                    <p class="comentario-contenido">[ comentario.contenido ]</p>
+                                </div>
                             </div>
-                            <textarea v-model="nuevoComentario" placeholder="Escribe un comentario..."
-                                class="social-form-control mb-2"></textarea>
-                            <button class="social-btn social-btn-sm social-btn-outline-secondary"
-                                @click="comentar(publicacion.id)">Comentar</button>
                         </div>
+
+                        <!-- Formulario para agregar un nuevo comentario -->
+                        <textarea v-model="nuevoComentario" placeholder="Escribe un comentario..."
+                            :disabled="!is_authenticated" class="social-form-control mb-2"></textarea>
+                            <div class="row text-left">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3"> <button class="social-btn social-btn-sm social-btn-outline-secondary"
+                                    :disabled="!is_authenticated" @click="comentar(publicacion.id)">Comentar</button></div>
+                            </div>
+                       
+
+
                     </div>
+
+
+
+
                 </div>
             </div>
         </div>
     </div>
-    
+
 
 
 
@@ -147,6 +154,8 @@
         delimiters: ['[', ']'],
         data() {
             return {
+                is_authenticated: '{{ request.user.is_authenticated }}',
+
                 mostrarComentarios: true,
                 publicaciones: [],  // Lista de publicaciones
                 nuevaPublicacion: {
@@ -159,7 +168,11 @@
         },
         created() {
             this.obtenerPublicaciones();
+
+            this.is_authenticated = this.is_authenticated == 'True' ? true : false;
+            //console.log(this.is_authenticated, 'is_authenticated');
         },
+
         methods: {
             procesarImagen(event) {
                 const archivo = event.target.files[0];
@@ -190,7 +203,7 @@
                         this.nuevaPublicacion.contenido = '';
                         this.nuevaPublicacion.imagen = null;
                         this.imagenPrevisualizada = null; // Limpiar la previsualización
-                        alert('Publicación creada con éxito');
+                        //alert('Publicación creada con éxito');
                         self.obtenerPublicaciones();
 
                     },
@@ -224,26 +237,28 @@
                         if (publicacion) publicacion.reacciones = response.reacciones;
                     },
                     error: function () {
-                        alert('Error al reaccionar a la publicación');
+                        //alert('Error al reaccionar a la publicación');
                     }
                 });
             },
             comentar(publicacionId) {
+                console.log('Comentar publicación', publicacionId);
                 if (!this.nuevoComentario) return;
                 $.ajax({
-                    url: `/comentar-publicacion/${publicacionId}/`,
+                    url: '{% url "comentar_publicacion"   %}',
                     method: 'POST',
                     data: {
+                        publicacion_id: publicacionId,
                         contenido: this.nuevoComentario,
                         csrfmiddlewaretoken: '{{ csrf_token }}'
                     },
                     success: (response) => {
                         const publicacion = this.publicaciones.find(pub => pub.id === publicacionId);
-                        if (publicacion) publicacion.comentarios.push(response);
+                        if (publicacion) publicacion.comentarios.push(response.comentario);
                         this.nuevoComentario = '';
                     },
                     error: function () {
-                        alert('Error al enviar el comentario');
+                        //alert('Error al enviar el comentario');
                     }
                 });
             },
@@ -258,9 +273,7 @@
                     publicacion.mostrarComentarios = !publicacion.mostrarComentarios; // Alternar la visibilidad
                 }
             },
-            comentar(publicacionId) {
-                // Aquí iría la lógica para agregar un comentario a la publicación.
-            }
+
         }
     });
 </script>
