@@ -20,8 +20,8 @@ APPLY_LOAD_SEPOMEX = True
 SECRET_KEY = 'django-insecure-2^_yk^ax2&0-aq%c(44f069a&@=%i$w2o6xn!^s-6%+b3h681w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-#DEBUG =True
+#DEBUG = False
+DEBUG =True
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '*']
 
 
@@ -83,7 +83,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-
+IS_LOCAL = True
 
 #DATABASES = {
 #    'default': {
@@ -109,10 +109,21 @@ WSGI_APPLICATION = 'core.wsgi.application'
 #    }
 #}
 #print(os.getenv('DATABASE_URL'))
-DATABASES = {
-    'default':  dj_database_url.config(default=os.getenv('DATABASE_URL'))
-}
-
+if not IS_LOCAL:
+    DATABASES = {
+        'default':  dj_database_url.config(default=os.getenv('DATABASE_URL'))
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'base_project',       # Nombre de tu base de datos
+            'USER': 'postgres',          # Usuario de la base de datos
+            'PASSWORD': '2808',          # Contraseña del usuario
+            'HOST': 'localhost',               # Dirección del servidor, 'localhost' para uso local
+            'PORT': '5432',                    # Puerto de PostgreSQL (5432 es el predeterminado)
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

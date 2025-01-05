@@ -24,9 +24,20 @@ class DireccionForm(forms.ModelForm):
         municipio = self.initial.get('municipio') or self.data.get('municipio')
         if municipio:
             self.fields['colonia'].queryset = Colonia.objects.filter(municipio=municipio)
-         # Si hay una instancia de direccion cargada, poner el codigo postal en el campo
-        #if self.instance and self.instance.codigo_postal:
-        #    self.fields['codigo_postal'].initial = self.instance.codigo_postal.codigo_postal
+        
+        
+        # Si es una instancia existente, mostrar el valor del código postal
+        if self.instance and hasattr(self.instance, 'codigo_postal') and self.instance.codigo_postal:
+            self.initial['codigo_postal'] = self.instance.codigo_postal.codigo_postal
+        else:
+            # Si es un nuevo objeto o no tiene código postal
+            codigo_postal = self.initial.get('codigo_postal') or self.data.get('codigo_postal') or None
+            if codigo_postal:
+                try:
+                    codigo_postal_obj = CodigoPostal.objects.get(codigo_postal=codigo_postal)
+                    self.fields['codigo_postal'].initial = codigo_postal_obj.codigo_postal
+                except CodigoPostal.DoesNotExist:
+                    self.fields['codigo_postal'].initial = ''
         
             
 
