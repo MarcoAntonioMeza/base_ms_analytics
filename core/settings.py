@@ -82,7 +82,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-IS_LOCAL = True
+IS_LOCAL = False
 
 #DATABASES = {
 #    'default': {
