@@ -154,12 +154,12 @@ STATICFILES_DIRS = [
     os.path.join(CORE_DIR, 'apps/static'),  # Carpetas donde se encuentran los archivos estáticos
 ]
 
-STORAGES = {
-    # ...
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
+#STORAGES = {
+#    # ...
+#    "staticfiles": {
+#        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+#    },
+#}
 # Directorio de archivos multimedia
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(CORE_DIR, 'media')
