@@ -1,5 +1,9 @@
 import os
+import dj_database_url
+from dotenv import load_dotenv
 from pathlib import Path
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -94,17 +98,20 @@ WSGI_APPLICATION = 'core.wsgi.application'
 #        },
 #    }
 #}
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'base_project',       # Nombre de tu base de datos
+#        'USER': 'postgres',          # Usuario de la base de datos
+#        'PASSWORD': '2808',          # Contraseña del usuario
+#        'HOST': 'localhost',               # Dirección del servidor, 'localhost' para uso local
+#        'PORT': '5432',                    # Puerto de PostgreSQL (5432 es el predeterminado)
+#    }
+#}
+print(os.getenv('DATABASE_URL'))
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'base_project',       # Nombre de tu base de datos
-        'USER': 'postgres',          # Usuario de la base de datos
-        'PASSWORD': '2808',          # Contraseña del usuario
-        'HOST': 'localhost',               # Dirección del servidor, 'localhost' para uso local
-        'PORT': '5432',                    # Puerto de PostgreSQL (5432 es el predeterminado)
-    }
+    'default':  dj_database_url.config(default=os.getenv('DATABASE_URL'))
 }
-
 
 
 # Password validation
