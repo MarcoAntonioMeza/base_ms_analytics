@@ -59,7 +59,7 @@ def listado_modulos(request):
     if request.user.is_authenticated:
         #print( request.user.get_all_permissions(),'permisos')
         permisos_usuario = request.user.get_all_permissions()
-        #print(permisos_usuario,'permisos')
+        print(permisos_usuario,'permisos')
         modulos_accesibles = []
 
         for modulo in modulos:
@@ -77,7 +77,7 @@ def listado_modulos(request):
                 modulos_accesibles.append(modulos_acc)
                 
         
-        #print(modulos_accesibles, 'hay usuarios')
+        print(modulos_accesibles, 'hay usuarios')
         return {'modulos_accesibles': modulos_accesibles}
         #print(modulos_accesibles,'no hay usuarisdsd')    
     return {'modulos_accesibles': []}

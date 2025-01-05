@@ -31,14 +31,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'whitenoise.ri¿unserver_nostatic'
+    #'whitenoise.runserver_nostatic'
     'widget_tweaks',
     'rest_framework',
+    'apps.usuario',
     'apps.adminv2',
     'apps.clientes.apps.ClientesConfig',
     'direccion.apps.DireccionConfig',  # Registra la configuración de tu aplicación
     'apps.home',
-    'apps.usuario',
+    
     'apps.socialMedia',
     'apps.simulador',
     
@@ -48,7 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -80,19 +81,30 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql',  # Motor de base de datos
+#        'NAME': 'base_django',  # Nombre de la base de datos
+#        'USER': 'root',                 # Usuario de la base de datos
+#        'PASSWORD': '',          # Contraseña del usuario
+#        'HOST': '127.0.0.1',                  # Host (puede ser localhost o una IP)
+#        'PORT': '3306',                       # Puerto de conexión, por defecto 3306
+#        'OPTIONS': {
+#            'sql_mode': 'STRICT_TRANS_TABLES',
+#        },
+#    }
+#}
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',  # Motor de base de datos
-        'NAME': 'base_django',  # Nombre de la base de datos
-        'USER': 'root',                 # Usuario de la base de datos
-        'PASSWORD': '',          # Contraseña del usuario
-        'HOST': '127.0.0.1',                  # Host (puede ser localhost o una IP)
-        'PORT': '3306',                       # Puerto de conexión, por defecto 3306
-        'OPTIONS': {
-            'sql_mode': 'STRICT_TRANS_TABLES',
-        },
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'base_project',       # Nombre de tu base de datos
+        'USER': 'postgres',          # Usuario de la base de datos
+        'PASSWORD': '2808',          # Contraseña del usuario
+        'HOST': 'localhost',               # Dirección del servidor, 'localhost' para uso local
+        'PORT': '5432',                    # Puerto de PostgreSQL (5432 es el predeterminado)
     }
 }
+
 
 
 # Password validation

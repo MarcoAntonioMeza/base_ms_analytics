@@ -13,6 +13,8 @@ class Usuario(AbstractUser):
             ("can_view_user", "VER USUARIO"),
             ("can_update_user", "ACTUALIZAR USUARIO"),
             ("can_create_user", "CREAR USUARIO"),
+            ("can_delete_user", "ELIMINAR USUARIO"),
+            
         ]
         
     
