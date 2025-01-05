@@ -6,8 +6,7 @@ class ComentarioSerializer(serializers.ModelSerializer):
     # Agregar un campo para el username del autor
     autor = serializers.ReadOnlyField(source='autor.username')  # 'autor' es el campo relacionado con el usuario
     fecha_creacion = serializers.SerializerMethodField()
-    # Añadir un campo para mostrar la fecha en formato relativo
-    #fecha_creacion_relativa = serializers.SerializerMethodField()
+    
 
     class Meta:
         model = Comentario

@@ -48,6 +48,8 @@ def home(request):
 #            "comentario": comentario_data,
 #            "staus_code": 10
 #        }, status=200)
+
+
 @api_view(['POST'])
 def comentar_publicacion(request):
     if request.method == 'POST':
@@ -69,6 +71,9 @@ def comentar_publicacion(request):
             "comentario": serializer.data,  # Serializado a JSON
             "status_code": 10
         }, status=200)
+        
+        
+        
 # Vista para dar "me gusta" a una publicación
 @login_required
 def me_gusta_publicacion(request, publicacion_id):
