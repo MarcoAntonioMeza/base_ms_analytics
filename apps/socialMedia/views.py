@@ -11,10 +11,18 @@ from datetime import datetime
 from django.utils.timesince import timesince
 
 import locale
-locale.setlocale(locale.LC_TIME, 'es_MX.UTF-8')
+#locale.setlocale(locale.LC_TIME, 'es_MX.UTF-8')
 from .models import Publicacion, Comentario, MeGustaPublicacion, MeGustaComentario
 from .serializers.comentario import ComentarioSerializer
 # Vista para la página principal donde se muestran las publicaciones
+
+
+try:
+    locale.setlocale(locale.LC_TIME, 'es_MX.UTF-8')
+except locale.Error:
+    # Si el locale no está disponible, no hacer nada
+    pass
+
 
 def home(request):
     publicaciones = Publicacion.objects.all().order_by('-fecha_creacion')

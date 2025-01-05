@@ -1,0 +1,7 @@
+[build]
+setup = """
+sudo apt-get update
+sudo apt-get install -y locales
+sudo locale-gen es_MX.UTF-8
+sudo update-locale LANG=es_MX.UTF-8
+"""
