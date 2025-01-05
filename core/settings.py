@@ -7,10 +7,10 @@ load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-CORE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#CORE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-APPLY_LOAD_SEPOMEX = True
+APPLY_LOAD_SEPOMEX = False
 
 
 # Quick-start development settings - unsuitable for production
@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'apps.clientes.apps.ClientesConfig',
     'direccion.apps.DireccionConfig',  # Registra la configuración de tu aplicación
     'apps.home',
-    
     'apps.socialMedia',
     'apps.simulador',
     
@@ -63,7 +62,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'core.urls'
-TEMPLATE_DIR = os.path.join(CORE_DIR, "apps/templates")  # ROOT dir for templates
+TEMPLATE_DIR = os.path.join(BASE_DIR, "apps/templates")  # ROOT dir for templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -98,17 +97,7 @@ IS_LOCAL = True
 #        },
 #    }
 #}
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
-#        'NAME': 'base_project',       # Nombre de tu base de datos
-#        'USER': 'postgres',          # Usuario de la base de datos
-#        'PASSWORD': '2808',          # Contraseña del usuario
-#        'HOST': 'localhost',               # Dirección del servidor, 'localhost' para uso local
-#        'PORT': '5432',                    # Puerto de PostgreSQL (5432 es el predeterminado)
-#    }
-#}
-#print(os.getenv('DATABASE_URL'))
+
 if not IS_LOCAL:
     DATABASES = {
         'default':  dj_database_url.config(default=os.getenv('DATABASE_URL'))
@@ -145,7 +134,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/4.1/topics/i18n/
 
 LANGUAGE_CODE = 'es-Mx'
 
@@ -163,22 +151,15 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Lugar donde se recopilan los archivos estáticos
 STATICFILES_DIRS = [
-    os.path.join(CORE_DIR, 'apps/static'),  # Carpetas donde se encuentran los archivos estáticos
+    os.path.join(BASE_DIR, 'apps/static'),  # Carpetas donde se encuentran los archivos estáticos
 ]
 
-#STORAGES = {
-#    # ...
-#    "staticfiles": {
-#        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-#    },
-#}
+
 # Directorio de archivos multimedia
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(CORE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'usuario.Usuario'

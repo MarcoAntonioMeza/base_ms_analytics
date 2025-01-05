@@ -58,22 +58,26 @@ class Usuario(AbstractUser):
     
     
     def save(self, *args, **kwargs):
-        # Cambiar el nombre del archivo de la imagen a un nombre único aleatorio
-        if self.profile_picture:
+        # Solo cambiar el nombre de la foto si es un nuevo registro (sin pk)
+        if self.profile_picture and not self.pk:
+            # Cambiar el nombre del archivo de la imagen a un nombre único aleatorio
             ext = self.profile_picture.name.split('.')[-1]
             new_name = f"{uuid.uuid4().hex}.{ext}"
             self.profile_picture.name = os.path.join(new_name)
-        else:
-            self.profile_picture = None
-            
-        #QUUIEN y cuando se creo
+        
+        # Si no hay foto, se asegura de que no sea None
+        elif not self.profile_picture and self.pk:
+            old_instance = Usuario.objects.get(pk=self.pk)
+            self.profile_picture = old_instance.profile_picture
+    
+        # Asignar las fechas de creación y actualización
         if not self.created_at:
             self.created_at = int(time.time())
         else:
-           
             self.updated_at = int(time.time())
         
         super(Usuario, self).save(*args, **kwargs)
+
 
 
 
