@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'whitenoise.ri¿unserver_nostatic'
     'widget_tweaks',
     'rest_framework',
     'apps.adminv2',
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -132,6 +134,13 @@ STATIC_ROOT = os.path.join(CORE_DIR, 'staticfiles')  # Lugar donde se recopilan 
 STATICFILES_DIRS = [
     os.path.join(CORE_DIR, 'apps/static'),  # Carpetas donde se encuentran los archivos estáticos
 ]
+
+STORAGES = {
+    # ...
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 # Directorio de archivos multimedia
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(CORE_DIR, 'media')
