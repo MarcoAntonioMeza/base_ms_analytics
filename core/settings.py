@@ -149,6 +149,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Lugar donde se recopilan los archivos estáticos
 STATICFILES_DIRS = [
     os.path.join(CORE_DIR, 'apps/static'),  # Carpetas donde se encuentran los archivos estáticos
