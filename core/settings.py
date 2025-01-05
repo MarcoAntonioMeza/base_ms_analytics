@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 CORE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-APPLY_LOAD_SEPOMEX = False
+APPLY_LOAD_SEPOMEX = True
 
 
 # Quick-start development settings - unsuitable for production
@@ -20,8 +20,8 @@ APPLY_LOAD_SEPOMEX = False
 SECRET_KEY = 'django-insecure-2^_yk^ax2&0-aq%c(44f069a&@=%i$w2o6xn!^s-6%+b3h681w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = False
-DEBUG =True
+DEBUG = False
+#DEBUG =True
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '*']
 
 
