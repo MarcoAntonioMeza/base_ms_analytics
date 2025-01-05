@@ -33,8 +33,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'widget_tweaks',
     'rest_framework',
-    
-    
     'apps.adminv2',
     'apps.clientes.apps.ClientesConfig',
     'direccion.apps.DireccionConfig',  # Registra la configuración de tu aplicación
