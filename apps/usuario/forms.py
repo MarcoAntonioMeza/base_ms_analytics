@@ -42,6 +42,17 @@ class UsuarioCreationForm(UserCreationForm):
         if not picture:
             return None  
         return picture
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if Usuario.objects.filter(username=username).exclude(id=self.instance.id).exists():
+            raise forms.ValidationError("Ya existe un usuario con este nombre de usuario.")
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if Usuario.objects.filter(email=email).exclude(id=self.instance.id).exists():
+            raise forms.ValidationError("Ya existe un usuario con este correo electrónico.")
+        return email
     
 #==================================================================
 #                            LOGIN
