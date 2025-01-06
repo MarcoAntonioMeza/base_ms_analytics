@@ -58,11 +58,9 @@ class DireccionForm(forms.ModelForm):
     
     def clean_codigo_postal(self):
         codigo_postal = self.cleaned_data.get('codigo_postal')
-
         # Si no hay código postal, no hacer nada
         if not codigo_postal:
             return None
-
         # Buscar el código postal por su valor
         try:
             codigo = CodigoPostal.objects.get(codigo_postal=codigo_postal)
