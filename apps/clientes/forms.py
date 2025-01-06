@@ -41,12 +41,20 @@ class DireccionForm(forms.ModelForm):
         # Estado: siempre disponibles
         self.fields['estado'].queryset = Estado.objects.all()
 
-        # Si hay datos iniciales, filtrar municipios y colonias
-        estado = self.initial.get('estado') or self.data.get('estado')
+        # Estado: siempre disponibles
+        self.fields['estado'].queryset = Estado.objects.all()
+        
+        # Filtrar municipios por el estado seleccionado
+        estado = self.initial.get('estado') 
+        if self.data.get('estado'):
+            estado = self.data.get('estado')
         if estado:
             self.fields['municipio'].queryset = Municipio.objects.filter(estado=estado)
-
-        municipio = self.initial.get('municipio') or self.data.get('municipio')
+        
+        # Filtrar colonias por el municipio seleccionado
+        municipio = self.initial.get('municipio')
+        if self.data.get('municipio'):
+            municipio = self.data.get('municipio')
         if municipio:
             self.fields['colonia'].queryset = Colonia.objects.filter(municipio=municipio)
 
@@ -85,7 +93,8 @@ class DireccionForm(forms.ModelForm):
             codigo_postal_obj = CodigoPostal.objects.get(codigo_postal=codigo_postal)
             return codigo_postal_obj  # Devolver la instancia de CodigoPostal
         except CodigoPostal.DoesNotExist:
-            raise forms.ValidationError("El código postal ingresado no es válido.")
+            pass
+            #raise forms.ValidationError("El código postal ingresado no es válido.")
 
     
     def clean_municipio(self):
@@ -97,7 +106,6 @@ class DireccionForm(forms.ModelForm):
     def clean_colonia(self):
         colonia = self.cleaned_data.get('colonia')
         if colonia and colonia not in self.fields['colonia'].queryset:
-            
             raise forms.ValidationError("Seleccione una colonia válida.")
         return colonia
 

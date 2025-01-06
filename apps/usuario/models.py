@@ -86,7 +86,7 @@ class Direccion(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='direcciones')
     estado = models.ForeignKey(Estado, on_delete=models.CASCADE)
     municipio = models.ForeignKey(Municipio, on_delete=models.CASCADE)
-    codigo_postal = models.ForeignKey(CodigoPostal, on_delete=models.CASCADE)
+    codigo_postal = models.ForeignKey(CodigoPostal, on_delete=models.CASCADE,null=True)
     colonia = models.ForeignKey(Colonia, on_delete=models.CASCADE)
     calle = models.CharField(max_length=200)
     numero_exterior = models.CharField(max_length=20, null=True, blank=True)

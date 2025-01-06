@@ -56,7 +56,7 @@
 
 
 
-                            <img src="{% if usuario.profile_picture and usuario.profile_picture != '' %}{{ usuario.profile_picture.url }}{% else %}{% static 'assets/img/theme/team-4.jpg' %}{% endif %}"
+                            <img src="{% if usuario.profile_picture and usuario.profile_picture != '' %}{{ usuario.profile_picture.url }}{% else %}{% static '/assets/img/brand/icon_user.png' %}{% endif %}"
                                 alt="{{ usuario.full_name }}" class="rounded-circle">
 
 

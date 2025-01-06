@@ -42,7 +42,7 @@
                 <div class="modal-body">
                     <form @submit.prevent="crearPublicacion" enctype="multipart/form-data">
                         <div class="d-flex">
-                            <img src="{% if request.user.profile_picture and request.user.profile_picture != '' %}{{ request.user.profile_picture.url }}{% else %}{% static 'assets/img/theme/team-4.jpg' %}{% endif %}"
+                            <img src="{% if request.user.profile_picture and request.user.profile_picture != '' %}{{ request.user.profile_picture.url }}{% else %}{% static '/assets/img/brand/icon_user.png' %}{% endif %}"
                                 alt="{{ request.user.full_name }}" class=" rounded-circle mr-3">
                             <textarea v-model="nuevaPublicacion.contenido" class="form-control"
                                 placeholder="¿Qué estás pensando?" rows="3" required></textarea>
