@@ -94,12 +94,62 @@ body {
   background-color: #f8f9fe;
 }
 
-/**
-MODAL SOCIAL MEDIA
-*/
-/* Contenedor principal de los comentarios con scroll */
-.comentarios-container {
-  max-height: 300px;    /* Limita la altura del contenedor de comentarios */
+.disable-div {
+  position: relative;       /* Necesario para posicionar el ícono y la leyenda */
+  pointer-events: auto;     /* Permite el evento click */
+  opacity: 0.5;             /* Reduce la opacidad del contenido */
+  user-select: none;        /* Evita que se seleccione el contenido */
+}
+/* Overlay para deshabilitar la interacción */
+.disabled-div .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+  display: none; /* Oculto por defecto */
+  z-index: 1; /* Asegura que esté por encima del contenido del div */
+}
+
+/* Deshabilitar los inputs y otros elementos interactivos */
+.disabled-div .disabled {
+  pointer-events: none; /* Deshabilita los eventos de clic */
+  opacity: 0.5; /* Hace que el div y sus elementos se vean más atenuados */
+}
+.toast-container {
+  position: fixed;
+  top: 20px; /* Ajusta la posición del toast desde la parte superior */
+  right: 20px;  /* Ajusta la posición del toast desde el borde derecho */
+  z-index: 9999;
+  display: none; /* Oculto por defecto */
+}
+
+.toast {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(20px); }
+  10%, 90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(20px); }
+}
+input[type="file"] {
+  pointer-events: none; /* Evita la interacción del usuario */
+  opacity: 0.5; /* Reduce la opacidad para mostrar que está deshabilitado */
+  cursor: not-allowed; /* Cambia el cursor a uno de prohibido */
+}
+
+
+
+.disable-div {
+  position: relative;       /* Necesario para posicionar el ícono y la leyenda altura del contenedor de comentarios */
   overflow-y: auto;     /* Muestra el scroll si los comentarios exceden el tamaño */
   padding-right: 10px;  /* Para el scroll */
   margin-bottom: 10px;  /* Espacio inferior */

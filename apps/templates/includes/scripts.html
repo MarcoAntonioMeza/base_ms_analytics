@@ -45,4 +45,46 @@
 
   // Mostrar inmediatamente
   actualizarFechaHora();
+
+  let sel =  document.querySelector('.disable-div')
+  if( sel){
+    sel.addEventListener('click', (event) => {
+      const toastContainer = document.getElementById('toast-container');
+  
+      // Mostrar el toast
+      toastContainer.style.display = 'block';
+  
+      // Deshabilitar todos los elementos dentro del div
+      const div = event.currentTarget; // El div clickeado
+      const inputs = div.querySelectorAll('input, textarea, select, button');
+      inputs.forEach((input) => {
+          input.disabled = true;
+      });
+  
+      // Ocultar el toast automáticamente después de 3 segundos
+      setTimeout(() => {
+          toastContainer.style.display = 'none';
+      }, 3000);
+  });
+  }
+ 
+
+document.addEventListener("DOMContentLoaded", () => {
+  const fileInputs = document.querySelectorAll('input[type="file"]');
+  
+  fileInputs.forEach(input => {
+      input.disabled = true; // Deshabilitar el input
+
+      // Crear el mensaje debajo del input
+      const legend = document.createElement("span");
+      legend.textContent = "No disponible por el momento";
+      legend.style.color = "#999";
+      legend.style.fontSize = "0.9rem";
+      legend.style.fontStyle = "italic";
+      
+      // Insertar el mensaje después del input
+      input.parentNode.insertBefore(legend, input.nextSibling);
+  });
+});
+
 </script>
