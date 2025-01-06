@@ -81,6 +81,10 @@ def crear_usuario(request):
 
 @permission_required('usuarios.can_udate_user', raise_exception=True)
 def update_usuario(request, id):
+    if int(id) == 1:
+        messages.error(request, "NO SE PUEDE EDIATAR AL SUPER ADMIN")
+        return redirect('user_view',id=id)
+    
     usuario = get_object_or_404(Usuario, id=id)
     # Verificar si el usuario tiene una dirección
     try:
@@ -88,6 +92,9 @@ def update_usuario(request, id):
     except Direccion.DoesNotExist:
         # Si el usuario no tiene dirección, crear una nueva dirección vacía
         direccion = Direccion(usuario=usuario)
+        
+   
+       
 
     # Cargar los formularios con los datos existentes
     if request.method == 'POST':
@@ -137,7 +144,8 @@ def update_usuario(request, id):
     
 @permission_required('usuarios.can_delete_user', raise_exception=True)
 def delete_usuario(request, id):
-    pass   
+    messages.error(request, "ACCION NO SOPORTADA")
+    return redirect('user_index')  
     
 #==================================================================
 #                            LIST TABLES

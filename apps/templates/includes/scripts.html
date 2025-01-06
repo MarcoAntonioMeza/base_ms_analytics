@@ -87,4 +87,19 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+
+  // Mostrar los toasts cuando se cargue la página
+  
+      var toastElements = document.querySelectorAll('.toast');
+      toastElements.forEach(function (toastElement) {
+          var toast = new bootstrap.Toast(toastElement, {
+              autohide: true, // El toast se oculta automáticamente
+              delay: 5000 // Duración antes de que se oculte (en milisegundos)
+          });
+          toast.show();
+      });
+  
+
+
+
 </script>

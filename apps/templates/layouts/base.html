@@ -1,5 +1,4 @@
-
-{% load static i18n  %}
+{% load static i18n %}
 <!DOCTYPE html>
 <html lang="es-MX">
 
@@ -12,7 +11,7 @@
   <link rel="canonical" href="https://appseed.us/admin-dashboards/django-dashboard-argon">
 
   <title>
-     {% block title %}  {% endblock %} 
+    {% block title %} {% endblock %}
   </title>
 
   <!-- Favicon - loaded as static -->
@@ -25,8 +24,8 @@
   <!-- Page plugins -->
   <!-- Argon CSS -->
   <link rel="stylesheet" href="/static/assets/css/argon.css?v=1.2.0" type="text/css">
-  
-  
+
+
 
   <!-- Specific CSS goes HERE -->
   {% block stylesheets %}{% endblock stylesheets %}
@@ -41,30 +40,46 @@
 
   <div class="toast-container" id="toast-container">
     <div class="toast">🧩 No disponible por el momento</div>
-</div>
+  </div>
   <!-- Botón de toggle para el menú en pantallas pequeñas -->
- 
+
   {% include "includes/sidenav.html" %}
-  
+
 
   <div class="main-content" id="panel">
 
+    {% if messages %}
+    <div class="alert-container" style="position: fixed; top: 10px; right: 10px; z-index: 1050;">
+        {% for message in messages %}
+            <div class="alert alert-warning  alert-dismissible fade show" role="alert">
+                <strong>Mensaje:</strong> {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
     {% include "includes/navigation.html" %}
-    
-      {% block content %}{% endblock content %}
+
    
-      {% include "includes/footer.html" %}
+
+    {% block content %}{% endblock content %}
+
+
+    {% include "includes/footer.html" %}
 
   </div>
 
   {% include "includes/scripts.html" %}
-  
+
   <!-- Specific JS goes HERE -->
   {% block javascripts %}
   {% endblock javascripts %}
 
   <script src="/static/assets/js/argon.js?v=1.2.0"></script>
-  
+
 
 </body>
 
