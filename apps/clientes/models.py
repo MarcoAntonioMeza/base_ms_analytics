@@ -70,7 +70,7 @@ class DireccionClientes(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name='direcciones')
     estado = models.ForeignKey(Estado, on_delete=models.CASCADE)
     municipio = models.ForeignKey(Municipio, on_delete=models.CASCADE)
-    codigo_postal = models.ForeignKey(CodigoPostal, on_delete=models.CASCADE)
+    codigo_postal = models.ForeignKey(CodigoPostal, on_delete=models.CASCADE,null=True)
     colonia = models.ForeignKey(Colonia, on_delete=models.CASCADE)
     calle = models.CharField(max_length=200)
     numero_exterior = models.CharField(max_length=20, null=True, blank=True)
@@ -78,3 +78,19 @@ class DireccionClientes(models.Model):
 
     def __str__(self):
         return f"{self.calle}, {self.colonia}, {self.municipio.nombre}, {self.estado.nombre}"
+    
+    
+    def save(self, *args, **kwargs):
+        
+
+        # Establecer las fechas de creación y actualización
+        if not self.numero_exterior:
+            self.numero_exterior = ""
+        
+        if not self.numero_interior:
+            self.numero_interior = ""
+        
+        
+
+        # Llama al método save original para guardar el objeto
+        super().save(*args, **kwargs)

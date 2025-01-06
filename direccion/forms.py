@@ -17,11 +17,16 @@ class DireccionForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['estado'].queryset = Estado.objects.all()
         # Si hay un estado seleccionado, actualizar los municipios y colonias
-        estado = self.initial.get('estado') or self.data.get('estado')
+        estado = self.initial.get('estado') 
+        if self.data.get('estado'):
+            estado = self.data.get('estado')
         if estado:
             self.fields['municipio'].queryset = Municipio.objects.filter(estado=estado)
-
-        municipio = self.initial.get('municipio') or self.data.get('municipio')
+        
+        # Filtrar colonias por el municipio seleccionado
+        municipio = self.initial.get('municipio')
+        if self.data.get('municipio'):
+            municipio = self.data.get('municipio')
         if municipio:
             self.fields['colonia'].queryset = Colonia.objects.filter(municipio=municipio)
         

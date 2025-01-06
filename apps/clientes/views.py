@@ -60,10 +60,12 @@ def update(request, id):
         direccion = DireccionClientes(cliente=cliente)
     
     if request.method == 'POST':
+        print(request.POST)
         cliente_form = ClienteForm(request.POST, instance=cliente)
         direccion_form = DireccionForm(request.POST, instance=direccion)
-        #print(request.POST)
+        
         if cliente_form.is_valid() and direccion_form.is_valid():
+            
             cliente = cliente_form.save(commit=False)
             cliente.save()
             direccion = direccion_form.save(commit=False)
@@ -74,17 +76,16 @@ def update(request, id):
     else:
         cliente_form = ClienteForm(instance=cliente )
         direccion_form = DireccionForm( instance=direccion)
-        #estados = Estado.objects.all()
+        
        
     
     return render(request, 'clientes/update.html', {
         'model': cliente,
         'cliente_form': cliente_form,
         'direccion_form': direccion_form,
-        #'estados': estados,
+        
     })
    
-    #return render(request, 'clientes/update.html')
 
 
 
